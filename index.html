@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>연세대 치대 25학번 학습 아카이브</title>
+<meta name="description" content="연세대학교 치과대학 25학번 동기들이 함께 보는 학기별 학습 아카이브">
+<meta name="theme-color" content="#00205b">
+<meta property="og:title" content="연세대 치대 25학번 학습 아카이브">
+<meta property="og:description" content="학기별, 과목별로 정리하는 25학번 학습 자료실">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23003477'/%3E%3Cpath d='M9 8h14v3H9zM15 11h3v6h-3zM9 20h14v3H9z' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+:root{
+  /* 연세 블루: 연세대학교 공식 로고 이미지에서 추출한 색 (#003477) */
+  --yonsei:#003477;
+  --navy:#00205b;
+  --royal:#1d4f9f;
+  --royal-soft:#e8eef7;
+  --gray:#686767;
+  --line:#cfd9e5;
+  --ink:#0d1b33;
+  --paper:#ffffff;
+  --wash:#f5f7fa;
+  --side:264px;
+}
+*{box-sizing:border-box;border-radius:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;color:var(--ink);background:var(--paper);
+  font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:16px;line-height:1.65;letter-spacing:-.01em;word-break:keep-all;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--royal);outline-offset:2px}
+
+/* 상단 바 */
+.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:20}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:56px;padding:0 24px;max-width:1280px;margin:0 auto}
+.brand{display:flex;align-items:baseline;gap:12px;min-width:0}
+.brand b{font-weight:700;font-size:17px;letter-spacing:-.02em;white-space:nowrap}
+.brand small{font-size:11px;letter-spacing:.14em;color:#9fb4d8;text-transform:uppercase;white-space:nowrap}
+.menu-btn{display:none;border:1px solid #4a6498;padding:6px 12px;font-size:14px;color:#fff}
+
+/* 레이아웃 */
+.wrap{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:var(--side) 1fr;min-height:calc(100vh - 56px)}
+.side{border-right:1px solid var(--line);padding:28px 0 48px;position:sticky;top:56px;align-self:start;max-height:calc(100vh - 56px);overflow:auto}
+.side h2{margin:0;padding:0 24px 8px;font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--gray)}
+.side .grp{margin-bottom:28px}
+.side a{display:flex;justify-content:space-between;align-items:baseline;padding:9px 24px;font-size:15px;border-left:3px solid transparent}
+.side a span{font-size:12px;color:var(--gray);font-variant-numeric:tabular-nums}
+.side a:hover{background:var(--wash)}
+.side a.on{border-left-color:var(--yonsei);background:var(--royal-soft);color:var(--yonsei);font-weight:700}
+.side a .now{font-size:11px;color:#fff;background:var(--royal);padding:0 6px;margin-left:8px;font-weight:500;letter-spacing:0}
+.main{padding:40px 48px 96px;min-width:0}
+
+/* 공통 */
+.crumb{font-size:13px;color:var(--gray);margin-bottom:18px}
+.crumb a:hover{color:var(--yonsei);text-decoration:underline}
+.crumb i{font-style:normal;margin:0 8px;color:#a9b6c8}
+h1{margin:0;font-size:34px;line-height:1.25;letter-spacing:-.03em;color:var(--navy);font-weight:800}
+.lead{margin:12px 0 0;color:var(--gray);max-width:620px}
+.rule{height:3px;width:56px;background:var(--yonsei);margin:22px 0 32px}
+.tag{display:inline-block;border:1px solid var(--line);padding:1px 8px;font-size:12px;color:var(--gray);white-space:nowrap}
+.tag.b{border-color:var(--royal);color:var(--royal)}
+
+/* 홈: 학기 목차 */
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+.block h2{margin:0 0 4px;font-size:20px;color:var(--navy);display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--navy);padding-bottom:10px}
+.block h2 span{font-size:13px;font-weight:400;color:var(--gray)}
+.idx a{display:grid;grid-template-columns:64px 1fr auto;align-items:baseline;gap:8px;padding:14px 4px;border-bottom:1px solid var(--line)}
+.idx a:hover{background:var(--royal-soft)}
+.idx .n{font-size:22px;font-weight:800;color:var(--yonsei);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.idx .t{font-size:16px}
+.idx .t small{display:block;font-size:13px;color:var(--gray);margin-top:2px;line-height:1.5}
+.idx .c{font-size:13px;color:var(--gray);white-space:nowrap}
+
+/* 학기: 과목 목록 */
+.list{border-top:2px solid var(--navy)}
+.list .head,.list a{display:grid;grid-template-columns:48px 1fr 110px 64px;gap:12px;align-items:baseline;padding:15px 8px;border-bottom:1px solid var(--line)}
+.list .head{font-size:12px;color:var(--gray);letter-spacing:.06em;padding:10px 8px;background:var(--wash)}
+.list a:hover{background:var(--royal-soft)}
+.list .no{font-size:13px;color:var(--gray);font-variant-numeric:tabular-nums}
+.list .nm{font-size:17px;font-weight:600}
+.list .nm em{font-style:normal;font-weight:400;font-size:12px;color:var(--royal);margin-left:8px}
+.list .cr{text-align:right;font-variant-numeric:tabular-nums;color:var(--gray)}
+.note{margin-top:28px;padding-left:14px;border-left:3px solid var(--line);font-size:13px;color:var(--gray);max-width:640px}
+
+/* 과목 */
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.sec{margin-top:8px}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--navy);padding-bottom:10px;margin-bottom:0}
+.sec-h h2{margin:0;font-size:18px;color:var(--navy)}
+.sec-h span{font-size:13px;color:var(--gray)}
+.empty{padding:44px 0 44px 20px;border-left:3px solid var(--yonsei);margin-top:28px;background:var(--wash)}
+.empty b{display:block;font-size:17px;color:var(--navy)}
+.empty p{margin:6px 0 0;font-size:14px;color:var(--gray)}
+.item{display:block;padding:16px 8px;border-bottom:1px solid var(--line)}
+.pager{display:flex;justify-content:space-between;gap:16px;margin-top:56px;border-top:1px solid var(--line)}
+.pager a{display:block;padding:16px 0;font-size:14px;color:var(--gray);flex:1}
+.pager a b{display:block;color:var(--ink);font-size:16px;margin-top:2px}
+.pager a:hover b{color:var(--yonsei)}
+.pager a.r{text-align:right}
+
+.foot{border-top:1px solid var(--line);padding:22px 24px;font-size:12px;color:var(--gray);text-align:center}
+
+/* 모바일 */
+@media (max-width:860px){
+  .top-in{padding:0 16px}
+  .brand small{display:none}
+  .menu-btn{display:block}
+  .wrap{display:block}
+  .side{display:none;position:fixed;top:56px;left:0;right:0;bottom:0;max-height:none;background:#fff;z-index:15;border:0;padding-top:16px}
+  body.open .side{display:block}
+  body.open{overflow:hidden}
+  .main{padding:28px 18px 72px}
+  h1{font-size:27px}
+  .home-grid{grid-template-columns:1fr;gap:36px}
+  .list .head{display:none}
+  .list a{grid-template-columns:1fr auto;grid-template-areas:"nm cr" "no cr";gap:2px 12px;padding:14px 4px}
+  .list .nm{grid-area:nm}.list .no{grid-area:no}.list .cr{grid-area:cr;align-self:center}
+  .list .gb{display:none}
+  .idx a{grid-template-columns:52px 1fr auto}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="./" data-go><b>치대 25학번 학습 아카이브</b><small>Yonsei Dentistry</small></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="side">학기 메뉴</button>
+  </div>
+</header>
+<div class="wrap">
+  <nav class="side" id="side" aria-label="학기 메뉴"></nav>
+  <main class="main" id="main"></main>
+</div>
+<footer class="foot">연세대학교 치과대학 25학번 · 교육과정은 치과대학 홈페이지(2026 이후 학년별 교과과정) 기준</footer>
+
+<script>
+/* ===================================================================
+   데이터
+   - 학기를 추가하려면 TERMS 배열에 항목을 넣으면 됩니다.
+   - 과목은 c(이름, 학점, 구분)로 만들고, 나중에 자료를 넣을 때는
+     과목 객체의 sections 배열에 { type, title, items } 를 추가하면 됩니다.
+   - 화면 그리는 방식은 아래 SECTION_RENDERERS 에 type 별로 등록합니다.
+   =================================================================== */
+const c = (name, credit, kind, extra) => Object.assign({ name, credit, kind, sections: [] }, extra || {});
+
+const COURSES = {
+  /* ── 치의예과 ── */
+  "ye11": [
+    c("연아리더십", 1, "전공필수"),
+    c("치의학입문", 2, "전공필수"),
+    c("ADVANCED BIOLOGY & EXPERIMENTS", 3, "전공기초"),
+    c("글쓰기", 3, "교양기초"),
+    c("YONSEI RC101", 1, "RC교육"),
+    c("RC자기주도활동", 0.5, "RC교육"),
+    c("채플", 0.5, "교양기초")
+  ],
+  "ye12": [
+    c("ADVANCED CHEMISTRY & EXPERIMENTS", 3, "전공기초"),
+    c("ENGLISH FOR DENTISTRY", 3, "대학교양"),
+    c("기독교의 이해", 3, "교양기초"),
+    c("사회참여", 1, "RC교육"),
+    c("RC자기주도활동", 0.5, "RC교육"),
+    c("채플", 0.5, "교양기초")
+  ],
+  "ye21": [
+    c("유기화학", 3, "전공필수"),
+    c("인체유전학", 3, "전공필수"),
+    c("발생생물학", 3, "전공필수"),
+    c("치의공학", 2, "전공필수"),
+    c("근거기반치의학", 2, "전공필수"),
+    c("치의학과사회", 1, "전공필수"),
+    c("생의학물리학", 3, "전공선택"),
+    c("채플", 0.5, "교양기초")
+  ],
+  "ye22": [
+    c("해부학", 5, "전공필수"),
+    c("조직학", 4, "전공필수"),
+    c("생화학", 4, "전공필수"),
+    c("치아형태학", 2, "전공필수"),
+    c("치의학의이해", 2, "전공필수"),
+    c("치대생을위한표현과청취", 2, "전공필수"),
+    c("채플", 0.5, "교양기초")
+  ],
+  /* ── 치의학과 ── */
+  "b11": [
+    c("구강생화학", 2), c("생리학", 4), c("치과생체재료학", 1), c("병리학", 3),
+    c("미생물학", 3), c("면역학", 2), c("신경해부학", 1), c("구강조직학", 1),
+    c("치아 및 치주질환 I", 1.5), c("영상치의학입문", 2), c("예방치과학 I", 1),
+    c("고정성보철학 I", 2), c("채플 I", 0.5)
+  ],
+  "b12": [
+    c("약리학", 4), c("두개악안면의성장과발육", 1.5), c("예방치과학 II", 2), c("수복학 I", 3),
+    c("구강악안면질환", 4.5), c("치아및치주질환 II", 2), c("치수치료 I", 0.5),
+    c("무치악보철치료학 I", 2), c("고정성보철학 II", 3), c("채플 II", 0.5),
+    c("인공지능알고리즘", 3, "AI 심화과정")
+  ],
+  "b21": [
+    c("교합학", 1), c("공중구강보건학", 1), c("치수치료 II", 2), c("가철성국소의치학 I", 3),
+    c("무치악보철치료학 II", 2), c("국소마취학", 0.5), c("치주치료", 3), c("수복학 II", 2),
+    c("부정교합의진단및치료 I", 1), c("구강악안면외과학 I", 3), c("고정성보철학 III", 2),
+    c("고정성보철학 IV", 1), c("연구설계", 0.5)
+  ],
+  "b22": [
+    c("임상충전학실습", 0.5), c("소아치과학", 3), c("가철성국소의치학 II", 3),
+    c("부정교합의진단및치료 II", 2), c("전신마취와 불안 및 통증조절", 0.5),
+    c("전신질환과치과치료", 2), c("악안면성장발육과 부정교합의 이해", 2),
+    c("구강악안면외과학 II", 4), c("구강악안면외상학", 1), c("법의치과학", 1), c("감염관리학", 0.5)
+  ],
+  "b31": [
+    c("부정교합의진단및치료 III", 1), c("구강악안면외과학 III", 2), c("치과응급처치학 I", 0.5),
+    c("치과응급처치학 II", 1, "1·2학기"), c("영상치의학 진단 및 활용", 1), c("구강악안면통증학", 2),
+    c("치과의료발전의비판적이해", 0.5), c("치의학의사소통", 1), c("행동치과학", 0.5),
+    c("장애인치과학", 0.5), c("포괄치과진료학 I", 1.5), c("임상치의학실습 I", 1.5),
+    c("치과임플란트학", 1.5), c("치과의료윤리학", 1)
+  ],
+  "b32": [
+    c("노인치과학", 1), c("포괄치과진료학 II", 3), c("임상치의학실습 II", 0.5),
+    c("임상교정학실습 I", 2), c("임상구강내과학실습 I", 2), c("임상영상치의학실습 I", 2),
+    c("임상구강악안면외과학실습 I", 2), c("임상수복학실습 I", 1.5), c("임상근관치료학실습 I", 1.5),
+    c("임상가철성국소의치학실습 I", 1.5), c("임상고정성보철학실습 I", 1.5),
+    c("임상무치악보철치료학실습 I", 1.5), c("임상소아치과학실습 I", 2), c("임상치주학실습 I", 2),
+    c("임상통합치의학실습 I", 0, "P/NP")
+  ],
+  "b41": [
+    c("임상교정학", 0.5), c("임상치주학", 0.5), c("임상구강악안면외과학", 0.5), c("임상수복학", 0.5),
+    c("임상무치악보철치료학", 0.5), c("임상가철성국소의치학", 0.5), c("임상고정성보철학", 0.5),
+    c("임상소아치과학", 0.5), c("포괄치과진료학 III", 3), c("임상실기 결과평가", 0.5), c("임상치의학실습 III", 1)
+  ],
+  "b42": [
+    c("보건의료관련법", 1), c("임상구강내과학", 0.5), c("임상근관치료학", 0.5), c("치과의료경영", 0.5),
+    c("임상구강병리학", 0.5), c("포괄치과진료학 IV", 3), c("임상실기 과정평가", 2), c("임상치의학실습 IV", 1),
+    c("특별활동프로그램", 0, "P/NP"), c("치의학종합평가", 1), c("임상교정학실습 II", 2),
+    c("임상구강내과학실습 II", 2), c("임상영상치의학실습 II", 2), c("임상구강악안면외과학실습 II", 2),
+    c("임상수복학실습 II", 1.5), c("임상근관치료학실습 II", 1.5), c("임상가철성국소의치학실습 II", 1.5),
+    c("임상고정성보철학실습 II", 1.5), c("임상무치악보철치료학실습 II", 1.5),
+    c("임상소아치과학실습 II", 2), c("임상치주학실습 II", 2), c("전신질환과 치과치료 실습", 0, "P/NP")
+  ]
+};
+
+const TERMS = [
+  { group: "치의예과", id: "ye11", label: "예과 1-1", full: "치의예과 1학년 1학기", year: 2025, hint: "공통 기초 · 입문", guess: true },
+  { group: "치의예과", id: "ye12", label: "예과 1-2", full: "치의예과 1학년 2학기", year: 2025, hint: "화학 · 영어 · 교양", guess: true },
+  { group: "치의예과", id: "ye21", label: "예과 2-1", full: "치의예과 2학년 1학기", year: 2026, hint: "유기화학 · 유전학 · 발생생물학", guess: true },
+  { group: "치의예과", id: "ye22", label: "예과 2-2", full: "치의예과 2학년 2학기", year: 2026, hint: "해부학 · 조직학 · 생화학", now: true },
+  { group: "치의학과", id: "b11", label: "본과 1-1", full: "치의학과 1학년 1학기", year: 2027, hint: "생리학 · 병리학 · 미생물학" },
+  { group: "치의학과", id: "b12", label: "본과 1-2", full: "치의학과 1학년 2학기", year: 2027, hint: "약리학 · 수복학 · 보철학" },
+  { group: "치의학과", id: "b21", label: "본과 2-1", full: "치의학과 2학년 1학기", year: 2028, hint: "치주치료 · 구강외과학" },
+  { group: "치의학과", id: "b22", label: "본과 2-2", full: "치의학과 2학년 2학기", year: 2028, hint: "소아치과학 · 가철성국소의치학" },
+  { group: "치의학과", id: "b31", label: "본과 3-1", full: "치의학과 3학년 1학기", year: 2029, hint: "임플란트 · 포괄치과진료학" },
+  { group: "치의학과", id: "b32", label: "본과 3-2", full: "치의학과 3학년 2학기", year: 2029, hint: "임상치의학실습" },
+  { group: "치의학과", id: "b41", label: "본과 4-1", full: "치의학과 4학년 1학기", year: 2030, hint: "임상 · 포괄치과진료학" },
+  { group: "치의학과", id: "b42", label: "본과 4-2", full: "치의학과 4학년 2학기", year: 2030, hint: "임상실습 · 종합평가" }
+].map(t => Object.assign(t, { courses: COURSES[t.id] || [] }));
+
+/* ===================================================================
+   과목 안에 들어갈 자료 종류 (아직 비어 있음)
+   예) 나중에 { type: "files", title: "강의자료", items: [...] } 를 추가하고
+       아래에 files 렌더러를 등록하면 화면에 바로 나옵니다.
+   =================================================================== */
+const SECTION_RENDERERS = {
+  /* files:  (sec) => `<a class="item" href="${sec.url}">...</a>` */
+};
+
+/* ===================================================================
+   화면
+   =================================================================== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+const fmt = n => (n === 0 ? "P/NP" : String(n));
+const sum = t => t.courses.reduce((a, x) => a + x.credit, 0);
+const termById = id => TERMS.find(t => t.id === id);
+const url = (s, cname) => "?s=" + s + (cname ? "&c=" + encodeURIComponent(cname) : "");
+
+function renderSide(cur) {
+  const groups = [...new Set(TERMS.map(t => t.group))];
+  $("#side").innerHTML = groups.map(g =>
+    `<div class="grp"><h2>${esc(g)}</h2>` +
+    TERMS.filter(t => t.group === g).map(t =>
+      `<a href="${url(t.id)}" data-go class="${cur === t.id ? "on" : ""}"><div>${esc(t.label)}${t.now ? '<span class="now">이번 학기</span>' : ""}</div><span>${t.courses.length}과목</span></a>`
+    ).join("") + `</div>`
+  ).join("");
+}
+
+function viewHome() {
+  const blocks = ["치의예과", "치의학과"].map(g => {
+    const ts = TERMS.filter(t => t.group === g);
+    return `<section class="block"><h2>${g}<span>${g === "치의예과" ? "2년 · 4학기" : "4년 · 8학기"}</span></h2><div class="idx">` +
+      ts.map(t => `<a href="${url(t.id)}" data-go><span class="n">${t.label.replace(/^\S+\s/, "")}</span><span class="t">${esc(t.full)}${t.now ? ' <span class="tag b">이번 학기</span>' : ""}<small>${esc(t.hint)}</small></span><span class="c">${t.courses.length}과목</span></a>`).join("") +
+      `</div></section>`;
+  }).join("");
+  return `<h1>25학번 학습 아카이브</h1>
+  <p class="lead">연세대학교 치과대학 25학번 동기들이 함께 보는 학습 자료실입니다. 학기를 고르고, 과목별로 자료를 모아 봅니다.</p>
+  <div class="rule"></div>
+  <div class="home-grid">${blocks}</div>`;
+}
+
+function viewTerm(t) {
+  const rows = t.courses.map((x, i) =>
+    `<a href="${url(t.id, x.name)}" data-go><span class="no">${String(i + 1).padStart(2, "0")}</span><span class="nm">${esc(x.name)}${x.sections.length ? "" : ""}</span><span class="gb"><span class="tag">${esc(x.kind || "전공")}</span></span><span class="cr">${fmt(x.credit)}${x.credit ? "학점" : ""}</span></a>`
+  ).join("");
+  return `<div class="crumb"><a href="./" data-go>홈</a><i>/</i>${esc(t.group)}<i>/</i>${esc(t.label)}</div>
+  <h1>${esc(t.full)}</h1>
+  <p class="lead">${t.year}학년도 · 과목 ${t.courses.length}개 · 총 ${sum(t)}학점</p>
+  <div class="rule"></div>
+  <div class="list"><div class="head"><span>번호</span><span>과목명</span><span class="gb">구분</span><span style="text-align:right">학점</span></div>${rows}</div>
+  ${t.guess ? '<p class="note">치과대학 홈페이지는 예과 과목을 학기별로 나누어 적지 않아, 이 학기의 과목 배치는 정리 과정에서 임의로 묶은 것입니다. 실제 시간표와 다르면 알려 주세요.</p>' : ""}`;
+}
+
+function viewCourse(t, x) {
+  const i = t.courses.indexOf(x);
+  const prev = t.courses[i - 1], next = t.courses[i + 1];
+  const secs = x.sections.map(sec => {
+    const r = SECTION_RENDERERS[sec.type];
+    return `<section class="sec"><div class="sec-h"><h2>${esc(sec.title || "")}</h2><span>${(sec.items || []).length}개</span></div>${r ? r(sec) : ""}</section>`;
+  }).join("");
+  const body = secs || `<div class="empty"><b>아직 등록된 자료가 없습니다</b><p>이 과목에 들어갈 자료는 곧 정리해서 올릴 예정입니다.</p></div>`;
+  return `<div class="crumb"><a href="./" data-go>홈</a><i>/</i><a href="${url(t.id)}" data-go>${esc(t.label)}</a><i>/</i>${esc(x.name)}</div>
+  <h1>${esc(x.name)}</h1>
+  <div class="facts"><span class="tag b">${esc(t.full)}</span><span class="tag">${esc(x.kind || "전공")}</span><span class="tag">${fmt(x.credit)}${x.credit ? "학점" : ""}</span></div>
+  <div class="rule"></div>
+  ${body}
+  <div class="pager">
+    ${prev ? `<a href="${url(t.id, prev.name)}" data-go>이전 과목<b>${esc(prev.name)}</b></a>` : "<span style='flex:1'></span>"}
+    ${next ? `<a class="r" href="${url(t.id, next.name)}" data-go>다음 과목<b>${esc(next.name)}</b></a>` : "<span style='flex:1'></span>"}
+  </div>`;
+}
+
+function render() {
+  const q = new URLSearchParams(location.search);
+  const t = termById(q.get("s"));
+  const cname = q.get("c");
+  const x = t && cname ? t.courses.find(k => k.name === cname) : null;
+  let html, title = "연세대 치대 25학번 학습 아카이브";
+  if (t && x) { html = viewCourse(t, x); title = x.name + " · " + t.label + " · 25학번 학습 아카이브"; }
+  else if (t) { html = viewTerm(t); title = t.full + " · 25학번 학습 아카이브"; }
+  else html = viewHome();
+  renderSide(t ? t.id : null);
+  $("#main").innerHTML = html;
+  document.title = title;
+  document.body.classList.remove("open");
+  $("#menuBtn").setAttribute("aria-expanded", "false");
+  window.scrollTo(0, 0);
+}
+
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[data-go]");
+  if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+  e.preventDefault();
+  history.pushState(null, "", a.getAttribute("href"));
+  render();
+});
+window.addEventListener("popstate", render);
+$("#menuBtn").addEventListener("click", () => {
+  const open = document.body.classList.toggle("open");
+  $("#menuBtn").setAttribute("aria-expanded", open);
+});
+render();
+</script>
+</body>
+</html>
