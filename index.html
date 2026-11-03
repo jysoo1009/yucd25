@@ -216,6 +216,27 @@ h1{margin:0;font-size:34px;line-height:1.25;letter-spacing:-.03em;color:var(--na
 .qz-foot{margin-top:28px;padding-left:14px;border-left:3px solid var(--line);font-size:12.5px;color:var(--gray);line-height:1.6}
 .qz-foot kbd{font-family:inherit;font-size:11px;border:1px solid var(--line);border-bottom-width:2px;padding:0 4px}
 .qz .tabs{scroll-margin-top:72px}
+.qz .badge.ok{border-color:var(--ok);color:var(--ok)}
+.qz .badge.rv{border-color:var(--bad);color:var(--bad)}
+.qz .fc{border:1px solid var(--navy);border-top:4px solid var(--navy);background:#fff;padding:18px 20px 20px;min-height:240px;margin-top:4px}
+.qz .fc.front{cursor:pointer}
+.qz .fc.front:hover{background:var(--wash)}
+.qz .fc.back{background:var(--royal-soft);border-top-color:var(--yonsei)}
+.qz .fc-side{font-size:12px;letter-spacing:.14em;font-weight:700;color:var(--royal);margin-bottom:12px}
+.qz .fc .q{font-size:20px;margin-top:0}
+.qz .fc-ans{font-size:22px;font-weight:800;color:var(--navy);line-height:1.4}
+.qz .fc-opts{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:15px}
+.qz .fc-opts li{display:flex;gap:10px;align-items:flex-start}
+.qz .fc-opts b{flex:none;width:22px;height:22px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;font-size:12px;color:var(--gray);margin-top:1px}
+.qz .fc-tap{margin-top:20px;font-size:12.5px;color:var(--gray)}
+.qz .fc-keys{margin:0 0 12px;padding-left:20px;font-size:14.5px}
+.qz .fc-keys li{margin:3px 0}
+.qz .fc.back .ans-body{border-top-color:#b9c8e3}
+.qz .fc.back .tbl{background:#fff}
+.qz .fc.fo{animation:fcOut .14s ease-in forwards}
+.qz .fc.fi{animation:fcIn .16s ease-out}
+@keyframes fcOut{to{transform:perspective(900px) rotateY(88deg)}}
+@keyframes fcIn{from{transform:perspective(900px) rotateY(-88deg)}to{transform:perspective(900px) rotateY(0)}}
 .qz .sv{max-width:100%;height:auto;display:block;margin:0 auto}
 .qz .sv text{font-size:12px;fill:var(--ink)}
 .qz .sv .sm{font-size:10.5px;fill:var(--gray)}
@@ -286,6 +307,12 @@ ANATOMY_EXAMS[3].contents.push({
   desc: "골반·샅 · 넓적다리·볼기 · 종아리·발 — 2009–2025 기출 · 2026 강의노트 · 2026 족보 기준",
   meta: "객관식 105 · 단답 228 · 서술 16",
   src: "data/anatomy-4.json", storeKey: "yucd25-anatomy-4-quiz"
+});
+ANATOMY_EXAMS[3].contents.push({
+  key: "cards", type: "cards", title: "학습 카드",
+  desc: "같은 기출을 문제 / 답 카드로 — 눌러서 뒤집어 확인하고, 모르는 카드만 모아 복습",
+  meta: "단답 228 · 객관식 105 · 서술 16",
+  src: "data/anatomy-4.json", storeKey: "yucd25-anatomy-4-cards"
 });
 
 const COURSES = {
@@ -522,7 +549,7 @@ function render() {
   if (t && x && exam && ct && ct.src) {
     fetch(ct.src).then(r => { if (!r.ok) throw 0; return r.json(); }).then(D => {
       if (tok !== renderTok) return;
-      activeQuiz = mountQuiz($("#qz"), D, ct.storeKey);
+      activeQuiz = (ct.type === "cards" ? mountCards : mountQuiz)($("#qz"), D, ct.storeKey);
     }).catch(() => {
       if (tok === renderTok) $("#qz").innerHTML = '<div class="empty">퀴즈를 불러오지 못했어요. 새로고침 해 보세요.</div>';
     });
@@ -549,6 +576,21 @@ function mountQuiz(root, D, KEY) {
   D.essay.forEach(x => byId[x.id] = Object.assign({ type: "essay" }, x));
   const st = Object.assign({ tab: "mcq", part: "all", freq: false, n25: false, n26: false, shuf: false, tier1: false }, store.prefs || {});
   let round = null, cur = {};
+  const saved = {}; // 탭별 진행 상태 (오답노트 등 다른 탭에 다녀와도 유지)
+  store.rounds = store.rounds || {};
+  function persist() {
+    saved[st.tab] = { round, cur };
+    Object.keys(saved).forEach(k => { const r = saved[k].round; store.rounds[k] = r ? { ids: r.ids, i: r.i, res: r.res, review: r.review } : null; });
+    save();
+  }
+  function restoreRound(tab) { // 새로고침·재방문 시 마지막 진행 위치 복원
+    const r = store.rounds[tab];
+    if (!r || !Array.isArray(r.ids) || !r.ids.length || !r.ids.every(id => byId[id])) return null;
+    const o = { ids: r.ids, i: r.i || 0, res: r.res || {}, review: !!r.review };
+    if (o.i < o.ids.length && o.res[o.ids[o.i]] !== undefined) o.i++;
+    return o;
+  }
+  function dropRounds() { Object.keys(saved).forEach(k => delete saved[k]); store.rounds = {}; }
 
   function yrCount(y) { return (String(y).match(/'\d\d/g) || []).length; }
   function isFreq(x) { return x.type === "short" ? x.s >= 2 : yrCount(x.y) >= 2; }
@@ -702,7 +744,8 @@ function mountQuiz(root, D, KEY) {
     });
     return h + "</div>";
   }
-  function draw() {
+  function draw() { drawView(); persist(); }
+  function drawView() {
     renderTabs(); renderFilters();
     if (st.tab === "wrong" && !(round && round.review)) { elMain.innerHTML = `<div class="card">${renderWrong()}</div>`; return; }
     if (!round) { startRound(pool()); return; }
@@ -716,9 +759,17 @@ function mountQuiz(root, D, KEY) {
 
   function onClick(e) {
     const t = e.target.closest("button,[data-key]"); if (!t || !root.contains(t)) return;
-    if (t.dataset.tab) { st.tab = t.dataset.tab; savePrefs(); round = null; cur = {}; if (st.tab === "wrong") { draw(); } else startRound(pool()); return; }
-    if (t.dataset.part) { st.part = t.dataset.part; savePrefs(); startRound(pool()); return; }
-    if (t.dataset.tog) { st[t.dataset.tog] = !st[t.dataset.tog]; savePrefs(); startRound(pool()); return; }
+    if (t.dataset.tab) {
+      if (t.dataset.tab === st.tab) { if (st.tab === "wrong" && round) { round = null; cur = {}; draw(); } return; }
+      saved[st.tab] = { round, cur };
+      st.tab = t.dataset.tab; savePrefs();
+      const s = saved[st.tab];
+      if (s) { round = s.round; cur = s.cur || {}; } else { round = null; cur = {}; }
+      if (st.tab === "wrong" || round) draw(); else startRound(pool());
+      return;
+    }
+    if (t.dataset.part) { st.part = t.dataset.part; savePrefs(); dropRounds(); startRound(pool()); return; }
+    if (t.dataset.tog) { st[t.dataset.tog] = !st[t.dataset.tog]; savePrefs(); dropRounds(); startRound(pool()); return; }
     if (t.dataset.wdel) { delete store.wrong[t.dataset.wdel]; save(); draw(); return; }
     if (t.dataset.opt !== undefined) {
       const x = byId[round.ids[round.i]]; const i = +t.dataset.opt; const multi = x.a.length > 1 || /모두/.test(x.q);
@@ -754,7 +805,7 @@ function mountQuiz(root, D, KEY) {
   }
   function onKey(e) {
     if (!round || round.i >= round.ids.length || st.tab === "essay") return;
-    if (e.target !== document.body && !root.contains(e.target)) return;
+    if (e.target !== document.body && e.target !== document.documentElement && !root.contains(e.target)) return;
     const x = byId[round.ids[round.i]]; if (!x) return;
     const inInput = e.target.id === "ans";
     if (e.key === "Enter") {
@@ -767,8 +818,144 @@ function mountQuiz(root, D, KEY) {
     }
     if (!inInput && x.type === "mcq" && !cur.done && /^[1-5]$/.test(e.key)) { const b = root.querySelector(`[data-opt="${+e.key - 1}"]`); if (b) b.click(); }
   }
-  if (st.tab === "wrong") draw(); else startRound(pool());
+  Object.keys(store.rounds).forEach(k => { if (k !== st.tab) { const r = restoreRound(k); if (r) saved[k] = { round: r, cur: {} }; } });
+  round = restoreRound(st.tab);
+  if (round || st.tab === "wrong") draw(); else startRound(pool());
   return { onClick, onChange, onInput, onKey };
+}
+
+/* ===================================================================
+   학습 카드 엔진 (문제 / 답 카드 — 눌러서 뒤집기)
+   같은 JSON(mcq/short/essay)에서 카드를 만듭니다.
+   =================================================================== */
+function mountCards(root, D, KEY) {
+  const PART = { P: "골반·샅", T: "넓적다리·볼기", L: "종아리·발" };
+  root.innerHTML = '<nav class="tabs" role="tablist" id="fcTabs"></nav><div class="filters" id="fcFilters"></div><div id="fcMain"></div>' +
+    '<p class="qz-foot">카드를 누르거나 <b>답 보기</b>를 누르면 뒤집혀요. 뒤집은 뒤 <b>알았어요</b> / <b>모르겠어요</b>를 고르면 이 브라우저에 기록되고, 모르겠어요로 표시한 카드는 <b>복습 카드</b> 탭에 모여요. 키보드: <kbd>Space</kbd> 뒤집기, <kbd>←</kbd> <kbd>→</kbd> 이동.</p>';
+  const elTabs = root.querySelector("#fcTabs"), elFilters = root.querySelector("#fcFilters"), elMain = root.querySelector("#fcMain");
+  let store = { marks: {}, pos: {}, prefs: {} };
+  try { const raw = localStorage.getItem(KEY); if (raw) store = Object.assign(store, JSON.parse(raw)); } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+  const byId = {};
+  D.short.forEach(x => byId[x.id] = Object.assign({ type: "short" }, x));
+  D.mcq.forEach(x => byId[x.id] = Object.assign({ type: "mcq" }, x));
+  D.essay.forEach(x => byId[x.id] = Object.assign({ type: "essay" }, x));
+  const st = Object.assign({ tab: "short", part: "all", freq: false, n25: false, n26: false, shuf: false, hide: false }, store.prefs || {});
+  if (!{ short: 1, mcq: 1, essay: 1, review: 1 }[st.tab]) st.tab = "short";
+  let decks = {}, flipped = false, busy = false;
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function yrCount(y) { return (String(y).match(/'\d\d/g) || []).length; }
+  function isFreq(x) { return x.type === "short" ? x.s >= 2 : yrCount(x.y) >= 2; }
+  function is25(x) { return /'25/.test(String(x.y)); }
+  function is26(x) { return String(x.y).indexOf("2026") >= 0 || /^\[2026/.test(x.q || ""); }
+  function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  function savePrefs() { store.prefs = { tab: st.tab, part: st.part, freq: st.freq, n25: st.n25, n26: st.n26, shuf: st.shuf, hide: st.hide }; save(); }
+  const countMark = m => Object.keys(store.marks).filter(id => byId[id] && store.marks[id] === m).length;
+  function poolIds() {
+    if (st.tab === "review") return [].concat(D.short, D.mcq, D.essay).map(x => x.id).filter(id => store.marks[id] === "review");
+    const src = st.tab === "short" ? D.short : st.tab === "mcq" ? D.mcq : D.essay;
+    let L = src.map(x => byId[x.id]).filter(x => st.part === "all" || x.p === st.part);
+    if (st.tab !== "essay") { if (st.freq) L = L.filter(isFreq); if (st.n25) L = L.filter(is25); if (st.n26) L = L.filter(is26); }
+    if (st.hide) L = L.filter(x => store.marks[x.id] !== "know");
+    return L.map(x => x.id);
+  }
+  function deck() {
+    if (!decks[st.tab]) {
+      let ids = poolIds(); const keepOrder = !st.shuf || st.tab === "essay" || st.tab === "review";
+      if (!keepOrder) ids = shuffle(ids);
+      const i = keepOrder ? Math.min(store.pos[st.tab] || 0, Math.max(ids.length - 1, 0)) : 0;
+      decks[st.tab] = { ids, i };
+    }
+    return decks[st.tab];
+  }
+  function renderTabs() {
+    const T = [["short", "단답", D.short.length + "장"], ["mcq", "객관식", D.mcq.length + "장"], ["essay", "서술", D.essay.length + "장"], ["review", "복습 카드", countMark("review") + "장"]];
+    elTabs.innerHTML = T.map(t => `<button class="tab" role="tab" aria-selected="${st.tab === t[0]}" data-tab="${t[0]}">${t[1]}<small>${t[2]}</small></button>`).join("");
+  }
+  function chip(attr, val, label, on) { return `<button class="chip" data-${attr}="${val}" aria-pressed="${on}">${label}</button>`; }
+  function renderFilters() {
+    if (st.tab === "review") { elFilters.innerHTML = ""; return; }
+    let h = chip("part", "all", "전체", st.part === "all") + ["P", "T", "L"].map(p => chip("part", p, PART[p], st.part === p)).join("") + '<span class="sep"></span>';
+    if (st.tab !== "essay") h += chip("tog", "freq", "자주 나온 것만 ★", st.freq) + chip("tog", "n25", "2025 기출", st.n25) + chip("tog", "n26", "2026 새 내용", st.n26) + chip("tog", "shuf", "섞기", st.shuf);
+    h += chip("tog", "hide", "알았어요 카드 숨기기", st.hide);
+    elFilters.innerHTML = h;
+  }
+  function wrapTables(html) { return html.replace(/<table/g, '<div class="tbl"><table').replace(/<\/table>/g, "</table></div>"); }
+  function front(x) {
+    if (x.type === "mcq") {
+      const multi = x.a.length > 1 || /모두/.test(x.q);
+      return `<div class="q">${esc(x.q)}</div>${multi ? '<div class="hint">해당하는 것을 모두 고르세요</div>' : ""}<ol class="fc-opts">${x.o.map((o, i) => `<li><b>${"ABCDE"[i]}</b><span>${esc(o)}</span></li>`).join("")}</ol>`;
+    }
+    if (x.type === "essay") return `<div class="prompt">${esc(x.q)}</div><div class="hint" style="margin:0">백지에 써 본 뒤 뒤집어서 빠진 포인트를 확인하세요.</div>`;
+    return `<div class="q">${esc(x.q)}</div>`;
+  }
+  function back(x) {
+    if (x.type === "mcq") {
+      return `<div class="fc-ans">${x.a.map(i => "ABCDE"[i]).join(", ")}</div><ol class="fc-opts" style="margin-top:10px">${x.a.map(i => `<li><b>${"ABCDE"[i]}</b><span>${esc(x.o[i])}</span></li>`).join("")}</ol>${x.x ? `<p style="margin:14px 0 0">${esc(x.x)}</p>` : ""}`;
+    }
+    if (x.type === "essay") {
+      let h = `<h3 class="sec" style="margin-top:0">채점 포인트</h3><ul class="fc-keys">${x.keys.map(k => `<li>${esc(k)}</li>`).join("")}</ul><div class="ans-body"><h3 class="sec" style="margin-top:0">모범답안</h3>${wrapTables(x.ans)}`;
+      if (x.svg) h += `<div class="fig">${x.svg}</div>`;
+      if (x.draw && x.draw.length) h += `<h3 class="sec">그리는 순서</h3><ol class="draw">${x.draw.map(s => `<li>${esc(s)}</li>`).join("")}</ol>`;
+      return h + "</div>";
+    }
+    return `<div class="fc-ans">${esc(x.a)}</div>${x.alt && x.alt.length ? `<div class="score" style="margin-top:8px">같은 답으로 인정: ${x.alt.map(esc).join(" · ")}</div>` : ""}`;
+  }
+  function draw(anim) {
+    renderTabs(); renderFilters();
+    const d = deck();
+    if (!d.ids.length) {
+      elMain.innerHTML = `<div class="card"><div class="empty">${st.tab === "review" ? "복습할 카드가 없어요.<br>카드를 뒤집은 뒤 <b>모르겠어요</b>를 누르면 여기에 모여요." : "이 조건에 맞는 카드가 없어요. 필터를 바꿔 보세요."}</div></div>`;
+      return;
+    }
+    const x = byId[d.ids[d.i]], n = d.ids.length, k = d.i + 1, mk = store.marks[x.id];
+    const st2 = x.type === "short" && x.s >= 2 ? `<span class="stars">${"★".repeat(x.s)}</span>` : "";
+    const yb = is26(x) ? '<span class="badge n">2026 신규</span>' : `<span class="badge">${esc(x.y)}</span>`;
+    const mb = mk === "know" ? '<span class="badge ok">알았어요</span>' : mk === "review" ? '<span class="badge rv">복습</span>' : "";
+    let h = `<div class="card"><div class="meta"><span><b>${k}</b> / ${n}</span><span class="prog"><b style="width:${(k / n * 100).toFixed(1)}%"></b></span><span class="badge p">${PART[x.p]}</span>${yb}${st2}${mb}</div>`;
+    h += `<div class="fc ${flipped ? "back" : "front"}${anim ? " fi" : ""}" id="fcCard" ${flipped ? "" : 'data-fc="flip"'}><div class="fc-side">${flipped ? "답" : "문제"}</div>${flipped ? back(x) : front(x)}${flipped ? "" : '<div class="fc-tap">카드를 눌러 뒤집기</div>'}</div>`;
+    h += `<div class="actions"><button class="btn" data-fc="prev" ${d.i === 0 ? "disabled" : ""}>← 이전</button><button class="btn pri" data-fc="flip" style="flex:1">${flipped ? "문제 보기" : "답 보기"}</button><button class="btn" data-fc="next" ${d.i >= n - 1 ? "disabled" : ""}>다음 →</button></div>`;
+    if (flipped) h += `<div class="actions"><button class="btn bad" data-fc="review" style="flex:1">모르겠어요</button><button class="btn ok" data-fc="know" style="flex:1">알았어요</button></div>`;
+    h += `<div class="score" style="margin-top:10px">알았어요 <b>${countMark("know")}</b> · 복습 <b>${countMark("review")}</b></div></div>`;
+    elMain.innerHTML = h;
+  }
+  function flip() {
+    if (busy || !deck().ids.length) return;
+    const c = root.querySelector("#fcCard");
+    if (reduce || !c) { flipped = !flipped; draw(false); return; }
+    busy = true; c.classList.add("fo");
+    setTimeout(() => { flipped = !flipped; draw(true); busy = false; }, 140);
+  }
+  function go(dir) {
+    const d = deck(); const j = Math.max(0, Math.min(d.ids.length - 1, d.i + dir));
+    if (j === d.i) return;
+    d.i = j; flipped = false; store.pos[st.tab] = j; save(); draw(false);
+    elTabs.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  function mark(m) {
+    const d = deck(); const id = d.ids[d.i]; if (!id) return;
+    store.marks[id] = m; save();
+    if (st.tab === "review" && m === "know") { d.ids.splice(d.i, 1); if (d.i >= d.ids.length) d.i = Math.max(0, d.ids.length - 1); flipped = false; store.pos.review = d.i; save(); draw(false); return; }
+    if (d.i < d.ids.length - 1) go(1); else { flipped = false; draw(false); }
+  }
+  function onClick(e) {
+    const t = e.target.closest("[data-tab],[data-part],[data-tog],[data-fc]"); if (!t || !root.contains(t)) return;
+    if (t.dataset.tab) { st.tab = t.dataset.tab; flipped = false; savePrefs(); draw(false); return; }
+    if (t.dataset.part) { st.part = t.dataset.part; decks = {}; flipped = false; savePrefs(); draw(false); return; }
+    if (t.dataset.tog) { st[t.dataset.tog] = !st[t.dataset.tog]; decks = {}; flipped = false; savePrefs(); draw(false); return; }
+    const a = t.dataset.fc;
+    if (a === "flip") flip(); else if (a === "next") go(1); else if (a === "prev") go(-1); else if (a === "know") mark("know"); else if (a === "review") mark("review");
+  }
+  function onKey(e) {
+    if (e.target !== document.body && e.target !== document.documentElement && !root.contains(e.target)) return;
+    if (/^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(e.target.tagName)) return;
+    if (e.key === " " || e.code === "Space" || e.key === "Enter") { e.preventDefault(); flip(); }
+    else if (e.key === "ArrowRight") go(1);
+    else if (e.key === "ArrowLeft") go(-1);
+  }
+  draw(false);
+  return { onClick, onChange() {}, onInput() {}, onKey };
 }
 document.addEventListener("click", e => { if (activeQuiz) activeQuiz.onClick(e); });
 document.addEventListener("change", e => { if (activeQuiz) activeQuiz.onChange(e); });
