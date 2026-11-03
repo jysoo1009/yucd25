@@ -218,23 +218,24 @@ h1{margin:0;font-size:34px;line-height:1.25;letter-spacing:-.03em;color:var(--na
 .qz .tabs{scroll-margin-top:72px}
 .qz .badge.ok{border-color:var(--ok);color:var(--ok)}
 .qz .badge.rv{border-color:var(--bad);color:var(--bad)}
-.qz .fc{border:1px solid var(--navy);border-top:4px solid var(--navy);background:#fff;padding:18px 20px 20px;min-height:240px;margin-top:4px}
-.qz .fc.front{cursor:pointer}
-.qz .fc.front:hover{background:var(--wash)}
-.qz .fc.back{background:var(--royal-soft);border-top-color:var(--yonsei)}
-.qz .fc-side{font-size:12px;letter-spacing:.14em;font-weight:700;color:var(--royal);margin-bottom:12px}
+.qz .fc{border:1px solid var(--navy);border-top:4px solid var(--navy);background:#fff;padding:18px 20px 20px;margin-top:4px}
+.qz .fc-side{font-size:12px;letter-spacing:.14em;font-weight:700;color:var(--royal);margin-bottom:10px}
 .qz .fc .q{font-size:20px;margin-top:0}
+.qz .fc-box{margin-top:20px;border:1px solid var(--line);padding:12px 16px 16px;min-height:92px}
+.qz .fc-box.closed{background:var(--wash);cursor:pointer}
+.qz .fc-box.closed:hover{border-color:var(--royal);background:var(--royal-soft)}
+.qz .fc-box.open{background:var(--royal-soft);border-color:var(--yonsei);border-left:4px solid var(--yonsei)}
 .qz .fc-ans{font-size:22px;font-weight:800;color:var(--navy);line-height:1.4}
 .qz .fc-opts{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:15px}
 .qz .fc-opts li{display:flex;gap:10px;align-items:flex-start}
 .qz .fc-opts b{flex:none;width:22px;height:22px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;font-size:12px;color:var(--gray);margin-top:1px}
-.qz .fc-tap{margin-top:20px;font-size:12.5px;color:var(--gray)}
+.qz .fc-tap{font-size:13px;color:var(--gray)}
 .qz .fc-keys{margin:0 0 12px;padding-left:20px;font-size:14.5px}
 .qz .fc-keys li{margin:3px 0}
-.qz .fc.back .ans-body{border-top-color:#b9c8e3}
-.qz .fc.back .tbl{background:#fff}
-.qz .fc.fo{animation:fcOut .14s ease-in forwards}
-.qz .fc.fi{animation:fcIn .16s ease-out}
+.qz .fc-box .ans-body{border-top-color:#b9c8e3}
+.qz .fc-box .tbl{background:#fff}
+.qz .fc-box.fo{animation:fcOut .14s ease-in forwards}
+.qz .fc-box.fi{animation:fcIn .16s ease-out}
 @keyframes fcOut{to{transform:perspective(900px) rotateY(88deg)}}
 @keyframes fcIn{from{transform:perspective(900px) rotateY(-88deg)}to{transform:perspective(900px) rotateY(0)}}
 .qz .sv{max-width:100%;height:auto;display:block;margin:0 auto}
@@ -831,7 +832,7 @@ function mountQuiz(root, D, KEY) {
 function mountCards(root, D, KEY) {
   const PART = { P: "골반·샅", T: "넓적다리·볼기", L: "종아리·발" };
   root.innerHTML = '<nav class="tabs" role="tablist" id="fcTabs"></nav><div class="filters" id="fcFilters"></div><div id="fcMain"></div>' +
-    '<p class="qz-foot">카드를 누르거나 <b>답 보기</b>를 누르면 뒤집혀요. 뒤집은 뒤 <b>알았어요</b> / <b>모르겠어요</b>를 고르면 이 브라우저에 기록되고, 모르겠어요로 표시한 카드는 <b>복습 카드</b> 탭에 모여요. 키보드: <kbd>Space</kbd> 뒤집기, <kbd>←</kbd> <kbd>→</kbd> 이동.</p>';
+    '<p class="qz-foot">문제는 그대로 두고, 답 칸을 누르거나 <b>답 보기</b>를 누르면 답만 뒤집혀 나타나요. 확인한 뒤 <b>알았어요</b> / <b>모르겠어요</b>를 고르면 이 브라우저에 기록되고, 모르겠어요로 표시한 카드는 <b>복습 카드</b> 탭에 모여요. 키보드: <kbd>Space</kbd> 뒤집기, <kbd>←</kbd> <kbd>→</kbd> 이동.</p>';
   const elTabs = root.querySelector("#fcTabs"), elFilters = root.querySelector("#fcFilters"), elMain = root.querySelector("#fcMain");
   let store = { marks: {}, pos: {}, prefs: {} };
   try { const raw = localStorage.getItem(KEY); if (raw) store = Object.assign(store, JSON.parse(raw)); } catch (e) {}
@@ -914,15 +915,15 @@ function mountCards(root, D, KEY) {
     const yb = is26(x) ? '<span class="badge n">2026 신규</span>' : `<span class="badge">${esc(x.y)}</span>`;
     const mb = mk === "know" ? '<span class="badge ok">알았어요</span>' : mk === "review" ? '<span class="badge rv">복습</span>' : "";
     let h = `<div class="card"><div class="meta"><span><b>${k}</b> / ${n}</span><span class="prog"><b style="width:${(k / n * 100).toFixed(1)}%"></b></span><span class="badge p">${PART[x.p]}</span>${yb}${st2}${mb}</div>`;
-    h += `<div class="fc ${flipped ? "back" : "front"}${anim ? " fi" : ""}" id="fcCard" ${flipped ? "" : 'data-fc="flip"'}><div class="fc-side">${flipped ? "답" : "문제"}</div>${flipped ? back(x) : front(x)}${flipped ? "" : '<div class="fc-tap">카드를 눌러 뒤집기</div>'}</div>`;
-    h += `<div class="actions"><button class="btn" data-fc="prev" ${d.i === 0 ? "disabled" : ""}>← 이전</button><button class="btn pri" data-fc="flip" style="flex:1">${flipped ? "문제 보기" : "답 보기"}</button><button class="btn" data-fc="next" ${d.i >= n - 1 ? "disabled" : ""}>다음 →</button></div>`;
+    h += `<div class="fc" id="fcCard"><div class="fc-side">문제</div>${front(x)}<div class="fc-box ${flipped ? "open" : "closed"}${anim ? " fi" : ""}" id="fcBox" ${flipped ? "" : "data-fc=\"flip\""}><div class="fc-side">답</div>${flipped ? back(x) : "<div class=\"fc-tap\">눌러서 답 확인</div>"}</div></div>`;
+    h += `<div class="actions"><button class="btn" data-fc="prev" ${d.i === 0 ? "disabled" : ""}>← 이전</button><button class="btn pri" data-fc="flip" style="flex:1">${flipped ? "답 숨기기" : "답 보기"}</button><button class="btn" data-fc="next" ${d.i >= n - 1 ? "disabled" : ""}>다음 →</button></div>`;
     if (flipped) h += `<div class="actions"><button class="btn bad" data-fc="review" style="flex:1">모르겠어요</button><button class="btn ok" data-fc="know" style="flex:1">알았어요</button></div>`;
     h += `<div class="score" style="margin-top:10px">알았어요 <b>${countMark("know")}</b> · 복습 <b>${countMark("review")}</b></div></div>`;
     elMain.innerHTML = h;
   }
   function flip() {
     if (busy || !deck().ids.length) return;
-    const c = root.querySelector("#fcCard");
+    const c = root.querySelector("#fcBox");
     if (reduce || !c) { flipped = !flipped; draw(false); return; }
     busy = true; c.classList.add("fo");
     setTimeout(() => { flipped = !flipped; draw(true); busy = false; }, 140);
