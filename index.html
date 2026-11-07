@@ -256,6 +256,138 @@ h1{margin:0;font-size:34px;line-height:1.25;letter-spacing:-.03em;color:var(--na
 .qz .sv .band{fill:var(--sv-band);stroke:none}
 @media (max-width:520px){.qz .q,.qz .prompt{font-size:16.5px}.qz .tab{font-size:13px}}
 
+
+/* ===== 기출 덱 (학습카드·퀴즈·오답노트·진행도) — 사이트 디자인 ===== */
+.dk{--paper:#fff;--muted:var(--gray);--good:#2f7d45;--bad:#b8322a;--flag:#8a5a00;--pelvis:#1d4f9f;--peri:#5d3b9a;--leg:#9a5b00;font-size:15px;overflow-wrap:anywhere}
+
+.dk button,.dk select,.dk input{font:inherit;color:inherit}
+.dk .stats{display:flex;gap:6px;flex-wrap:wrap;margin:-6px 0 14px}
+.dk .stat{border:1px solid var(--line);padding:3px 10px;font-size:12px;color:var(--muted)}
+.dk .stat b{color:var(--ink);font-size:13px;font-variant-numeric:tabular-nums}
+.dk .tabs{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--navy);background:#fff;position:sticky;top:56px;z-index:5;scroll-margin-top:56px;margin-bottom:14px}
+.dk .tabs button{appearance:none;border:0;border-right:1px solid var(--line);background:#fff;color:var(--navy);font-weight:700;font-size:14px;padding:11px 4px;cursor:pointer;min-height:46px}
+.dk .tabs button:last-child{border-right:0}
+.dk .tabs button[aria-current="page"]{background:var(--navy);color:#fff}
+.dk .tabs .n{font-size:11px;opacity:.8;margin-left:4px;font-variant-numeric:tabular-nums}
+.dk .filters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.dk .filters label{display:flex;flex-direction:column;gap:2px;font-size:11px;color:var(--muted);font-weight:700}
+.dk .filters select{appearance:none;-webkit-appearance:none;background:#fff;border:1px solid var(--navy);padding:8px 8px;font-size:13.5px;color:var(--ink);width:100%;min-height:40px}
+.dk .fnote{font-size:12.5px;color:var(--muted)}
+.dk .fbox{background:#fff;border:1px solid var(--line)}
+.dk .fbox>summary{list-style:none;cursor:pointer;padding:10px 12px;font-size:13.5px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.dk .fbox>summary::-webkit-details-marker{display:none}
+.dk .fbox>summary .what{font-weight:700;color:var(--navy)}
+.dk .fbox>summary .act{color:var(--royal);font-size:12.5px;white-space:nowrap}
+.dk .fbox[open]>summary{border-bottom:1px solid var(--line)}
+.dk .fbox .fin{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px}
+.dk .card{background:#fff;border:1px solid var(--line);border-top:0}
+.dk .card[data-r="pelvis"]{--rc:var(--pelvis)}
+.dk .card[data-r="peri"]{--rc:var(--peri)}
+.dk .card[data-r="leg"]{--rc:var(--leg)}
+.dk .card .band{height:4px;background:var(--rc)}
+.dk .cardbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px}
+.dk .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px}
+.dk .chip{display:inline-flex;align-items:center;padding:1px 8px;font-weight:700;border:1px solid var(--line);color:var(--muted);background:#fff;white-space:nowrap;font-size:11.5px}
+.dk .chip.reg{background:var(--rc);border-color:var(--rc);color:#fff}
+.dk .chip.src{font-weight:500;font-variant-numeric:tabular-nums}
+.dk .chip.pred{color:var(--flag);border-color:var(--flag)}
+.dk .sub{color:var(--muted);font-size:12px}
+.dk .stars{color:var(--rc);letter-spacing:1px;font-size:12px;margin-left:auto}
+.dk .q{margin:0;font-size:19px;font-weight:700;line-height:1.5;letter-spacing:-.01em;color:var(--ink)}
+.dk .opts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.dk .opts li{display:flex;gap:10px;align-items:baseline;padding:8px 10px;background:var(--wash);font-size:15.5px}
+.dk .opts .no{color:var(--muted);font-size:13px;min-width:1.3em}
+.dk .ans{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.dk .ans .lab{font-size:12px;font-weight:700;color:var(--rc);letter-spacing:.12em}
+.dk .ans .val{font-size:18px;font-weight:800;line-height:1.45;color:var(--navy)}
+.dk .ans .exp{margin:0;font-size:14.5px;background:var(--royal-soft);border-left:4px solid var(--yonsei);padding:9px 12px}
+.dk .ans .exp::before{content:"해설 ";font-weight:700;color:var(--yonsei);font-size:12.5px}
+.dk .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.dk .row.spread{justify-content:space-between}
+.dk .btn{border:1px solid var(--navy);background:#fff;color:var(--navy);padding:9px 14px;font-weight:700;font-size:14.5px;cursor:pointer;min-height:44px}
+.dk .btn:hover:not(:disabled){background:var(--royal-soft)}
+.dk .btn.primary{background:var(--yonsei);color:#fff;border-color:var(--yonsei)}
+.dk .btn.primary:hover:not(:disabled){background:var(--navy)}
+.dk .btn.good{background:var(--good);border-color:var(--good);color:#fff}
+.dk .btn.good:hover:not(:disabled){background:#256a39}
+.dk .btn.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+.dk .btn.bad:hover:not(:disabled){background:#9a2820}
+.dk .btn.ghost{background:transparent;border-color:var(--line);color:var(--gray)}
+.dk .btn.note[aria-pressed="true"]{color:var(--yonsei);border-color:var(--yonsei);background:var(--royal-soft)}
+.dk .btn.grow{flex:1 1 0}
+.dk .btn:disabled{opacity:.4;cursor:default}
+.dk :focus-visible{outline:2px solid var(--royal);outline-offset:2px}
+.dk .pos{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.dk .lastres{font-size:12px;color:var(--muted)}
+.dk .lastres .ok{color:var(--good);font-weight:700}
+.dk .lastres .no{color:var(--bad);font-weight:700}
+.dk .bar{height:4px;background:var(--chip,#e8edf3)}
+.dk .bar>i{display:block;height:100%;background:var(--yonsei)}
+.dk .choice{width:100%;text-align:left;display:flex;gap:10px;align-items:baseline;border:1px solid var(--line);background:#fff;padding:11px 12px;font-size:16px;cursor:pointer;color:var(--ink)}
+.dk .choice .no{color:var(--muted);font-size:13.5px;min-width:1.3em}
+.dk .choice:hover:not(:disabled){border-color:var(--royal);background:var(--wash)}
+.dk .choice.right{border-color:var(--good);background:#e8f3ec}
+.dk .choice.wrong{border-color:var(--bad);background:#fbebe8}
+.dk .choice:disabled{cursor:default;color:var(--ink)}
+.dk .choice.miss{border-color:var(--good);border-style:dashed}
+.dk .choice.multi[aria-pressed="true"]{border-color:var(--yonsei);background:var(--royal-soft)}
+.dk .choice .box{font-size:18px;line-height:1;color:var(--muted)}
+.dk .choice.multi[aria-pressed="true"] .box{color:var(--yonsei)}
+.dk .hint{font-size:13px;color:var(--muted)}
+.dk .exlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.dk .exlist li{background:var(--wash);padding:7px 10px;border-left:4px solid var(--line)}
+.dk .exlist li.okk{border-left-color:var(--good)}
+.dk .exlist li.nok{border-left-color:var(--bad)}
+.dk .exlist .tag{font-weight:700;font-size:12.5px;margin-right:4px;border:0;padding:0}
+.dk .exlist li.okk .tag{color:var(--good)}
+.dk .exlist li.nok .tag{color:var(--bad)}
+.dk .typed{width:100%;border:1px solid var(--navy);background:#fff;padding:12px 14px;font-size:16px}
+.dk .verdict{font-weight:800;font-size:17px}
+.dk .verdict.ok{color:var(--good)}
+.dk .verdict.no{color:var(--bad)}
+.dk .match{font-size:13px;color:var(--good);font-weight:700}
+.dk .panel{background:#fff;border:1px solid var(--line);border-top:2px solid var(--navy);padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.dk .panel h2{margin:0;font-size:17px;letter-spacing:-.01em;color:var(--navy)}
+.dk .panel p{margin:0;color:var(--muted);font-size:14px}
+.dk .seg{display:flex;flex-wrap:wrap;gap:6px}
+.dk .seg button{border:1px solid var(--line);background:#fff;padding:6px 13px;font-size:14px;cursor:pointer;font-weight:700;color:var(--gray);min-height:36px}
+.dk .seg button:hover{border-color:var(--royal)}
+.dk .seg button[aria-pressed="true"]{background:var(--yonsei);color:#fff;border-color:var(--yonsei)}
+.dk .toggle{display:flex;align-items:center;gap:8px;font-size:14px}
+.dk .toggle input{width:18px;height:18px;accent-color:var(--yonsei)}
+.dk .big{font-size:44px;font-weight:800;letter-spacing:-.02em;line-height:1;color:var(--navy)}
+.dk .list{display:flex;flex-direction:column;gap:10px;border:0}
+.dk .item .cardbody{gap:9px;padding:13px 16px 14px}
+.dk .item .q{font-size:16.5px}
+.dk .item .ans .val{font-size:16px}
+.dk .empty{text-align:center;color:var(--muted);padding:28px 12px;background:var(--wash);border-left:4px solid var(--yonsei);font-size:14.5px;margin:0}
+.dk .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dk .tile{background:#fff;border:1px solid var(--line);border-top:2px solid var(--navy);padding:12px}
+.dk .tile .k{font-size:12px;color:var(--muted);font-weight:700}
+.dk .tile .v{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--navy)}
+.dk .tile .v small{font-size:13px;color:var(--muted);font-weight:500}
+.dk .regrow{display:flex;flex-direction:column;gap:6px}
+.dk .reghead{display:flex;justify-content:space-between;font-size:14px;font-weight:700}
+.dk .reghead span:last-child{font-size:12.5px;color:var(--muted);font-weight:400;font-variant-numeric:tabular-nums}
+.dk .stack{display:flex;height:10px;background:var(--line)}
+.dk .stack i{display:block;height:100%}
+.dk .stack .g{background:var(--good)}
+.dk .stack .b{background:var(--bad)}
+.dk .legend{display:flex;gap:14px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.dk .legend i{display:inline-block;width:9px;height:9px;margin-right:5px;vertical-align:0}
+.dk table.subs{width:100%;border-collapse:collapse;font-size:13.5px}
+.dk table.subs th,.dk table.subs td{text-align:left;padding:7px 4px;border-bottom:1px solid var(--line)}
+.dk table.subs th{font-size:12px;color:var(--navy);font-weight:700;background:var(--wash)}
+.dk table.subs td.n{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.dk table.subs th.n{text-align:right}
+.dk .tablewrap{overflow-x:auto}
+.dk .warnbar{background:#fbf3df;border-left:4px solid var(--flag);padding:9px 12px;font-size:13.5px;margin-bottom:12px}
+.dk .kbd{font-size:11.5px;color:var(--muted)}
+
+@media (max-width:560px){.dk .filters{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:480px){.dk .q{font-size:17.5px}.dk .tiles .v{font-size:21px}.dk .kbd{display:none}.dk .cardbody{padding:14px 14px 16px}.dk .panel{padding:14px}}
+@media (prefers-reduced-motion:no-preference){.dk .ans,.dk .result{animation:dkrise .18s ease-out}@keyframes dkrise{from{transform:translateY(4px);opacity:.6}to{transform:none;opacity:1}}}
+
 /* 모바일 */
 @media (max-width:860px){
   .top-in{padding:0 16px}
@@ -304,10 +436,10 @@ const c = (name, credit, kind, extra) => Object.assign({ name, credit, kind, sec
 const ANATOMY_EXAMS = [1, 2, 3, 4, 5, 6].map(n => ({ key: String(n), title: n + "차 시험", date: "", contents: [] }));
 ANATOMY_EXAMS[3].date = "11/6(금)";
 ANATOMY_EXAMS[3].contents.push({
-  key: "quiz", type: "quiz", title: "기출 퀴즈",
-  desc: "골반·샅 · 넓적다리·볼기 · 종아리·발 — 2009–2025 기출 · 2026 강의노트 · 2026 족보 기준",
-  meta: "객관식 105 · 단답 228 · 서술 16",
-  src: "data/anatomy-4.json", storeKey: "yucd25-anatomy-4-quiz"
+  key: "quiz", type: "deck", title: "기출 퀴즈",
+  desc: "골반 · 샅 · 다리 — 합본 기출 + 예상문제. 학습카드 · 퀴즈 · 오답노트 · 진행도",
+  meta: "문제 361 (단답 244 · 객관식 117)",
+  src: "data/anatomy-4-deck.json", storeKey: "yucd25-anatomy-4-deck"
 });
 ANATOMY_EXAMS[3].contents.push({
   key: "cards", type: "cards", title: "학습 카드",
@@ -521,8 +653,8 @@ function viewQuiz(t, x, e, ct) {
   <h1>${esc(x.name)} ${esc(e.key)}차 ${esc(ct.title)}</h1>
   <p class="lead">${esc(ct.desc || "")}</p>
   <div class="rule"></div>
-  <div class="qz-legend"><span><i style="background:#b8322a"></i>동맥</span><span><i style="background:#2a5aa6"></i>정맥</span><span><i style="background:#9a7200"></i>신경</span><span><i style="background:#2f7d45"></i>림프</span></div>
-  <div class="qz" id="qz"><div class="empty">불러오는 중…</div></div>`;
+  ${ct.type === "deck" ? "" : '<div class="qz-legend"><span><i style="background:#b8322a"></i>동맥</span><span><i style="background:#2a5aa6"></i>정맥</span><span><i style="background:#9a7200"></i>신경</span><span><i style="background:#2f7d45"></i>림프</span></div>'}
+  <div class="${ct.type === "deck" ? "dk" : "qz"}" id="qz"><div class="empty">불러오는 중…</div></div>`;
 }
 
 let renderTok = 0;
@@ -550,279 +682,449 @@ function render() {
   if (t && x && exam && ct && ct.src) {
     fetch(ct.src).then(r => { if (!r.ok) throw 0; return r.json(); }).then(D => {
       if (tok !== renderTok) return;
-      activeQuiz = (ct.type === "cards" ? mountCards : mountQuiz)($("#qz"), D, ct.storeKey);
+      activeQuiz = ({ cards: mountCards, deck: mountDeck }[ct.type])($("#qz"), D, ct.storeKey);
     }).catch(() => {
       if (tok === renderTok) $("#qz").innerHTML = '<div class="empty">퀴즈를 불러오지 못했어요. 새로고침 해 보세요.</div>';
     });
   }
 }
 
-/* ===================================================================
-   기출 퀴즈 엔진 (객관식 · 단답 · 서술 · 오답노트)
-   mountQuiz(화면 요소, 데이터, 저장키) — 데이터 JSON은 { mcq:[], short:[], essay:[] } 형식
-   오답노트·설정은 이 브라우저(localStorage)에 저장되며 시험마다 따로 관리됩니다.
-   =================================================================== */
 let activeQuiz = null;
-function mountQuiz(root, D, KEY) {
-  const PART = { P: "골반·샅", T: "넓적다리·볼기", L: "종아리·발" };
-  root.innerHTML = '<nav class="tabs" role="tablist" id="qzTabs"></nav><div class="filters" id="qzFilters"></div><div id="qzMain"></div>' +
-    '<p class="qz-foot">단답은 띄어쓰기·순서를 무시하고 채점해요. 표현이 달라 틀림으로 나오면 정답을 보고 <b>맞게 썼어요</b>를 누르세요. 틀린 문제는 이 브라우저의 오답노트에 남아요. 키보드: <kbd>1</kbd>–<kbd>5</kbd> 보기 선택, <kbd>Enter</kbd> 채점·다음.</p>';
-  const elTabs = root.querySelector("#qzTabs"), elFilters = root.querySelector("#qzFilters"), elMain = root.querySelector("#qzMain");
-  let store = { wrong: {}, essay: {}, drafts: {}, prefs: {} };
-  try { const raw = localStorage.getItem(KEY); if (raw) store = Object.assign(store, JSON.parse(raw)); } catch (e) {}
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
-  const byId = {};
-  D.mcq.forEach(x => byId[x.id] = Object.assign({ type: "mcq" }, x));
-  D.short.forEach(x => byId[x.id] = Object.assign({ type: "short" }, x));
-  D.essay.forEach(x => byId[x.id] = Object.assign({ type: "essay" }, x));
-  const st = Object.assign({ tab: "mcq", part: "all", freq: false, n25: false, n26: false, shuf: false, tier1: false }, store.prefs || {});
-  let round = null, cur = {};
-  const saved = {}; // 탭별 진행 상태 (오답노트 등 다른 탭에 다녀와도 유지)
-  store.rounds = store.rounds || {};
-  function persist() {
-    saved[st.tab] = { round, cur };
-    Object.keys(saved).forEach(k => { const r = saved[k].round; store.rounds[k] = r ? { ids: r.ids, i: r.i, res: r.res, review: r.review } : null; });
-    save();
+/* ===================================================================
+   기출 덱 엔진 (학습카드 · 퀴즈 · 오답노트 · 진행도)
+   mountDeck(화면 요소, 문제 배열, 저장키) — 문제 배열의 각 항목:
+   { id, r:부위, s:단원, t:'short'|'mcq'|'multi', q, a, o?, e?, ex?, y, k:중요도, src }
+   =================================================================== */
+function mountDeck(root, DATA, KEY) {
+  root.innerHTML = '<div class="stats" id="stats"></div><div id="warn"></div>' +
+    '<nav class="tabs" id="tabs" aria-label="화면"><button data-v="cards">학습카드</button><button data-v="quiz">퀴즈</button><button data-v="notes">오답노트</button><button data-v="progress">진행도</button></nav><div id="view"></div>';
+const BY = Object.fromEntries(DATA.map(d => [d.id, d]));
+const RK = { '골반': 'pelvis', '샅': 'peri', '다리': 'leg' };
+const TL = { short: '단답형', mcq: '객관식 · 답 1개', multi: '객관식 · 답 여러 개' };
+const DEF = {
+  res: {}, notes: {}, quiz: null, auto: true, view: 'cards',
+  f: { r: 'all', t: 'all', src: 'all', k: '0', st: 'all' },
+  cards: { sig: '', order: [], pos: 0, shuffle: false },
+  qset: { n: '20', shuffle: true }
+};
+let S = JSON.parse(JSON.stringify(DEF));
+let canSave = true;
+try {
+  const raw = localStorage.getItem(KEY);
+  if (raw) {
+    const got = JSON.parse(raw);
+    S = Object.assign(S, got);
+    S.f = Object.assign({}, DEF.f, got.f || {});
+    S.cards = Object.assign({}, DEF.cards, got.cards || {});
+    S.qset = Object.assign({}, DEF.qset, got.qset || {});
   }
-  function restoreRound(tab) { // 새로고침·재방문 시 마지막 진행 위치 복원
-    const r = store.rounds[tab];
-    if (!r || !Array.isArray(r.ids) || !r.ids.length || !r.ids.every(id => byId[id])) return null;
-    const o = { ids: r.ids, i: r.i || 0, res: r.res || {}, review: !!r.review };
-    if (o.i < o.ids.length && o.res[o.ids[o.i]] !== undefined) o.i++;
-    return o;
-  }
-  function dropRounds() { Object.keys(saved).forEach(k => delete saved[k]); store.rounds = {}; }
+} catch (e) { canSave = false; }
+function save() {
+  if (!canSave) return;
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { canSave = false; showWarn(); }
+}
+function showWarn() {
+  root.querySelector('#warn').innerHTML = canSave ? '' :
+    '<div class="warnbar">이 브라우저에서는 저장이 막혀 있어요. 새로고침하면 진행도와 오답노트가 사라져요. 시크릿 모드가 아닌 창에서 열어 주세요.</div>';
+}
 
-  function yrCount(y) { return (String(y).match(/'\d\d/g) || []).length; }
-  function isFreq(x) { return x.type === "short" ? x.s >= 2 : yrCount(x.y) >= 2; }
-  function is25(x) { return /'25/.test(String(x.y)); }
-  function is26(x) { return String(x.y).indexOf("2026") >= 0 || /^\[2026/.test(x.q || ""); }
-  function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-  function pool() {
-    const src = st.tab === "mcq" ? D.mcq : st.tab === "short" ? D.short : D.essay;
-    let L = src.map(x => byId[x.id]).filter(x => st.part === "all" || x.p === st.part);
-    if (st.tab !== "essay") { if (st.freq) L = L.filter(isFreq); if (st.n25) L = L.filter(is25); if (st.n26) L = L.filter(is26); }
-    else if (st.tier1) L = L.filter(x => x.tier === 1);
-    return L.map(x => x.id);
+/* ---------- helpers ---------- */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+const NUM = ['①', '②', '③', '④', '⑤', '⑥'];
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function stars(k) { return '★'.repeat(k) + '☆'.repeat(3 - k); }
+function dispNo(i, perm) { return NUM[perm ? perm.indexOf(i) : i]; }
+function srcChip(d) { return d.src === '예상' ? '<span class="chip pred">예상문제</span>' : `<span class="chip src">기출 ${esc(d.y)}</span>`; }
+function norm(s) { return String(s).toLowerCase().replace(/\([^)]*\)/g, '').replace(/[\s·,\/\-→=()\[\]'"‘’“”.~+]/g, ''); }
+function filtered(f) {
+  f = f || S.f;
+  return DATA.filter(d => {
+    if (f.r !== 'all' && d.r !== f.r) return false;
+    if (f.t !== 'all' && d.t !== f.t) return false;
+    if (f.src !== 'all' && d.src !== f.src) return false;
+    if (d.k < +f.k) return false;
+    const r = S.res[d.id];
+    if (f.st === 'new' && r) return false;
+    if (f.st === 'wrong' && !(r && r.l === 0)) return false;
+    if (f.st === 'note' && !S.notes[d.id]) return false;
+    return true;
+  }).map(d => d.id);
+}
+function record(id, ok) {
+  const r = S.res[id] || { n: 0, c: 0 };
+  r.n++; if (ok) r.c++; r.l = ok ? 1 : 0; r.t = Date.now();
+  S.res[id] = r;
+  if (!ok && S.auto && !S.notes[id]) S.notes[id] = Date.now();
+}
+function toggleNote(id) { if (S.notes[id]) delete S.notes[id]; else S.notes[id] = Date.now(); save(); }
+function lastRes(id) {
+  const r = S.res[id]; if (!r) return '<span class="lastres">아직 안 푼 문제</span>';
+  return `<span class="lastres">${r.n}번 풀이 · 최근 <span class="${r.l ? 'ok' : 'no'}">${r.l ? '맞음' : '틀림'}</span></span>`;
+}
+function metaHtml(d, extra) {
+  return `<div class="meta"><span class="chip reg">${d.r}</span><span class="sub">${esc(d.s)}</span>
+    <span class="chip">${TL[d.t]}</span>${srcChip(d)}<span class="stars" title="중요도">${stars(d.k)}</span>${extra || ''}</div>`;
+}
+function answerBlock(d, perm) {
+  let val = '', extra = '';
+  if (d.t === 'short') val = fmt(d.a);
+  else {
+    const order = perm ? perm : d.o.map((_, i) => i);
+    const ans = d.t === 'mcq' ? [d.a] : d.a;
+    val = order.filter(i => ans.includes(i)).map(i => `${dispNo(i, perm)} ${fmt(d.o[i])}`).join('<br>');
+    if (d.ex) extra = `<ul class="exlist">${order.map(i => `<li class="${d.ex[i].ok ? 'okk' : 'nok'}"><span class="tag">${dispNo(i, perm)} ${d.ex[i].ok ? '옳음' : '틀림'}</span> ${fmt(d.ex[i].t)}</li>`).join('')}</ul>`;
   }
-  function startRound(ids, review) {
-    if (st.shuf && st.tab !== "essay") ids = shuffle(ids);
-    round = { ids, i: 0, res: {}, review: !!review }; cur = {}; draw();
-  }
-  function savePrefs() { store.prefs = { tab: st.tab, part: st.part, freq: st.freq, n25: st.n25, n26: st.n26, shuf: st.shuf, tier1: st.tier1 }; save(); }
+  return `<div class="ans"><div class="lab">정답</div><div class="val">${val}</div>
+    ${d.e ? `<p class="exp">${fmt(d.e)}</p>` : ''}${extra}</div>`;
+}
+let fOpen = false;
+const FL = { r: { all: '전체 부위' }, t: { all: '모든 유형', short: '단답형', mcq: '객관식 1개', multi: '객관식 여러 개' }, src: { all: '기출+예상', '기출': '기출만', '예상': '예상만' },
+  k: { '0': '', '2': '★★ 이상', '3': '★★★만' }, st: { all: '', new: '안 푼 것', wrong: '최근 틀린 것', note: '오답노트' } };
+function filterBar(note, open) {
+  const isOpen = open || fOpen;
+  const lab = k => (FL[k][S.f[k]] !== undefined ? FL[k][S.f[k]] : S.f[k]);
+  const what = ['r', 't', 'src', 'k', 'st'].map(lab).filter(Boolean).join(' · ');
+  const sel = (id, label, opts) => `<label>${label}<select id="f-${id}">${opts.map(([v, t]) =>
+    `<option value="${v}"${S.f[id] === v ? ' selected' : ''}>${t}</option>`).join('')}</select></label>`;
+  const inner = `<div class="filters">
+    ${sel('r', '부위', [['all', '전체'], ['골반', '골반'], ['샅', '샅'], ['다리', '다리']])}
+    ${sel('t', '유형', [['all', '전체'], ['short', '단답형'], ['mcq', '객관식 1개'], ['multi', '객관식 여러 개']])}
+    ${sel('src', '출처', [['all', '전체'], ['기출', '기출'], ['예상', '예상']])}
+    ${sel('k', '중요도', [['0', '전체'], ['2', '★★ 이상'], ['3', '★★★만']])}
+    ${sel('st', '상태', [['all', '전체'], ['new', '안 푼 것'], ['wrong', '최근 틀린 것'], ['note', '오답노트']])}
+  </div>${note ? `<div class="fnote">${note}</div>` : ''}`;
+  return `<details class="fbox" id="fbox" ${isOpen ? 'open' : ''} ${open ? 'data-forced="1"' : ''}><summary><span class="what">${esc(what)} <span class="kbd">${filtered().length}문제</span></span><span class="act">${isOpen ? '접기' : '범위 바꾸기'}</span></summary><div class="fin">${inner}</div></details>`;
+}
+function bindFilters(after) {
+  const fb = document.getElementById('fbox');
+  if (fb) fb.addEventListener('toggle', () => { if (!fb.dataset.forced) fOpen = fb.open; const a = fb.querySelector('.act'); if (a) a.textContent = fb.open ? '접기' : '범위 바꾸기'; });
+  ['r', 't', 'src', 'k', 'st'].forEach(k => {
+    const el = document.getElementById('f-' + k);
+    if (el) el.addEventListener('change', () => { S.f[k] = el.value; save(); after(); });
+  });
+}
 
-  function renderTabs() {
-    const nW = Object.keys(store.wrong).length;
-    const T = [["mcq", "객관식", D.mcq.length + "문항"], ["short", "단답", D.short.length + "문항"], ["essay", "서술", D.essay.length + "주제"], ["wrong", "오답노트", nW + "개"]];
-    elTabs.innerHTML = T.map(t => `<button class="tab" role="tab" aria-selected="${st.tab === t[0]}" data-tab="${t[0]}">${t[1]}<small>${t[2]}</small></button>`).join("");
-  }
-  function chip(attr, val, label, on) { return `<button class="chip" data-${attr}="${val}" aria-pressed="${on}">${label}</button>`; }
-  function renderFilters() {
-    if (st.tab === "wrong") { elFilters.innerHTML = ""; return; }
-    let h = chip("part", "all", "전체", st.part === "all") + ["P", "T", "L"].map(p => chip("part", p, PART[p], st.part === p)).join("") + '<span class="sep"></span>';
-    if (st.tab === "essay") h += chip("tog", "tier1", "1순위 10개만", st.tier1);
-    else h += chip("tog", "freq", "자주 나온 것만 ★", st.freq) + chip("tog", "n25", "2025 기출", st.n25) + chip("tog", "n26", "2026 새 내용", st.n26) + chip("tog", "shuf", "섞기", st.shuf);
-    elFilters.innerHTML = h;
-  }
-  function metaRow(x) {
-    const n = round.ids.length, k = round.i + 1;
-    const st2 = x.type === "short" && x.s >= 2 ? `<span class="stars">${"★".repeat(x.s)}</span>` : "";
-    const yb = is26(x) ? '<span class="badge n">2026 신규</span>' : `<span class="badge">${esc(x.y)}</span>`;
-    return `<div class="meta"><span><b>${k}</b> / ${n}</span><span class="prog"><b style="width:${(k / n * 100).toFixed(1)}%"></b></span><span class="badge p">${PART[x.p]}</span>${yb}${st2}${round.review ? '<span class="badge">오답 다시</span>' : ""}</div>`;
-  }
-  function scoreLine() {
-    const v = Object.values(round.res); const ok = v.filter(Boolean).length;
-    return v.length ? `<span class="score">이번 회차 <b>${ok}</b> / ${v.length} 정답</span>` : '<span class="score">&nbsp;</span>';
-  }
-  function navBtns(answered) {
-    const last = round.i >= round.ids.length - 1;
-    return `<span class="spacer"></span>${round.i > 0 ? '<button class="btn" data-act="prev">← 이전</button>' : ""}<button class="btn ${answered ? "pri" : ""}" data-act="next">${last ? "결과 보기" : "다음 →"}</button>`;
-  }
-  function markResult(x, ok) {
-    round.res[x.id] = ok;
-    if (ok) { if (round.review && store.wrong[x.id]) { delete store.wrong[x.id]; cur.removed = true; } }
-    else store.wrong[x.id] = Date.now();
-    save(); renderTabs();
-  }
+/* ---------- header ---------- */
+function renderStats() {
+  const done = Object.keys(S.res).filter(id => BY[id]);
+  const ok = done.filter(id => S.res[id].l === 1).length;
+  const nn = Object.keys(S.notes).filter(id => BY[id]).length;
+  root.querySelector('#stats').innerHTML =
+    `<span class="stat">푼 문제 <b>${done.length}</b>/${DATA.length}</span>` +
+    `<span class="stat">최근 정답 <b>${done.length ? Math.round(ok / done.length * 100) : 0}%</b></span>` +
+    `<span class="stat">오답노트 <b>${nn}</b></span>`;
+  const t = root.querySelector('.tabs button[data-v="notes"]');
+  t.innerHTML = `오답노트<span class="n">${nn}</span>`;
+}
 
-  // ---------- 객관식 ----------
-  function renderMCQ(x) {
-    const multi = x.a.length > 1 || /모두/.test(x.q);
-    if (!cur.sel) cur.sel = [];
-    const done = cur.done;
-    let h = metaRow(x) + `<div class="q">${esc(x.q)}</div>`;
-    if (multi) h += `<div class="hint">해당하는 것을 모두 고르세요</div>`;
-    h += '<div class="opts">' + x.o.map((o, i) => {
-      let cls = "opt" + (multi ? " multi" : "");
-      if (done) { if (x.a.includes(i)) cls += " right"; else if (cur.sel.includes(i)) cls += " wrong"; }
-      return `<button class="${cls}" data-opt="${i}" aria-pressed="${cur.sel.includes(i)}" ${done ? "disabled" : ""}><span class="k">${"ABCDE"[i]}</span><span>${esc(o)}</span></button>`;
-    }).join("") + "</div>";
-    if (done) {
-      const ok = round.res[x.id];
-      h += `<div class="fb ${ok ? "ok" : "bad"}"><div class="h">${ok ? "정답" : "오답"}${cur.removed ? " · 오답노트에서 뼼어요" : ""}</div>정답: <b>${x.a.map(i => "ABCDE"[i]).join(", ")}</b> · ${x.a.map(i => esc(x.o[i])).join(" / ")}${x.x ? `<div style="margin-top:6px">${esc(x.x)}</div>` : ""}</div>`;
-    }
-    h += `<div class="actions">${done ? "" : `<button class="btn pri" data-act="grade" ${cur.sel.length ? "" : "disabled"}>채점</button>`}${scoreLine()}${navBtns(done)}</div>`;
-    return h;
+/* ---------- cards ---------- */
+let revealed = false;
+function cardList() {
+  const sig = JSON.stringify([S.f, S.cards.shuffle]);
+  if (S.cards.sig !== sig) {
+    const ids = filtered();
+    S.cards.order = S.cards.shuffle ? shuffle(ids) : ids;
+    S.cards.sig = sig; S.cards.pos = 0; save();
   }
-  // ---------- 단답 ----------
-  const NORM = s => String(s).toLowerCase().replace(/[\s·,.\-–—=()~\/'"“”‘’→:;、|]+/g, "");
-  function variants(item) {
-    const v = [item]; const m = item.match(/^(.*?)\((.*?)\)(.*)$/);
-    if (m) { v.push(m[1] + m[3]); v.push(m[2]); }
-    return v.map(NORM).filter(s => s.length >= 2);
+  return S.cards.order.filter(id => BY[id]);
+}
+function renderCards() {
+  const list = cardList();
+  const v = root.querySelector('#view');
+  if (!list.length) {
+    v.innerHTML = filterBar() + '<div class="empty" style="margin-top:12px">이 조건에 맞는 문제가 없어요. 위에서 범위를 넓혀 보세요.</div>';
+    bindFilters(renderAll); return;
   }
-  function checkShort(x, input) {
-    const n = NORM(input); if (!n) return false;
-    const full = [x.a].concat(x.alt || []);
-    for (const c of full) { if (variants(c).some(v => v === n)) return true; }
-    for (const c of full) {
-      const items = c.split(/\s*,\s*/).filter(Boolean);
-      if (items.length < 2) continue;
-      const total = items.reduce((s, it) => s + NORM(it).length, 0);
-      if (n.length <= total * 1.5 + 6 && items.every(it => variants(it).some(v => n.indexOf(v) >= 0))) return true;
-    }
-    return false;
-  }
-  function renderShort(x) {
-    const done = cur.done;
-    let h = metaRow(x) + `<div class="q">${esc(x.q)}</div>`;
-    h += `<input class="ans" id="ans" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="답을 입력하고 Enter" value="${esc(cur.input || "")}" ${done || cur.pending ? "disabled" : ""}>`;
-    const ansTxt = `<div class="ansline">${esc(x.a)}</div>${x.alt && x.alt.length ? `<div class="score">같은 답으로 인정: ${x.alt.map(esc).join(" · ")}</div>` : ""}`;
-    if (cur.pending) {
-      h += `<div class="fb neutral"><div class="h">${cur.input ? "표현이 달라요. 정답과 비교해 보세요" : "정답"}</div>${ansTxt}</div>`;
-      h += `<div class="actions">${cur.input ? '<button class="btn ok" data-act="selfok">맞게 썼어요</button>' : ""}<button class="btn bad" data-act="selfno">${cur.input ? "틀렸어요" : "다음에 다시 (오답노트로)"}</button>${scoreLine()}</div>`;
-      return h;
-    }
-    if (done) {
-      const ok = round.res[x.id];
-      h += `<div class="fb ${ok ? "ok" : "bad"}"><div class="h">${ok ? "정답" : "오답노트에 넣었어요"}${cur.removed ? " · 오답노트에서 뼼어요" : ""}</div>${ansTxt}</div>`;
-      h += `<div class="actions">${scoreLine()}${navBtns(true)}</div>`;
-      return h;
-    }
-    h += `<div class="actions"><button class="btn pri" data-act="check">확인</button><button class="btn" data-act="reveal">정답 보기</button>${scoreLine()}${navBtns(false)}</div>`;
-    return h;
-  }
-  // ---------- 서술 ----------
-  function wrapTables(html) { return html.replace(/<table/g, '<div class="tbl"><table').replace(/<\/table>/g, "</table></div>"); }
-  function renderEssay(x) {
-    const opts = round.ids.map((id, i) => { const e = byId[id]; const b = store.essay[id]; return `<option value="${i}" ${i === round.i ? "selected" : ""}>S${D.essay.indexOf(D.essay.find(z => z.id === id)) + 1}. ${esc(e.t)}${b ? ` (최고 ${b[0]}/${b[1]})` : ""}</option>`; }).join("");
-    let h = `<div class="meta"><select id="esel" aria-label="서술 주제 고르기">${opts}</select><span class="badge p">${PART[x.p]}</span><span class="badge ${x.tier === 1 ? "t1" : ""}">${x.tier === 1 ? "1순위" : "2순위"}</span><span class="badge">${esc(x.y)}</span></div>`;
-    h += `<div class="prompt">${esc(x.q)}</div>`;
-    const draft = (store.drafts && store.drafts[x.id]) || "";
-    h += `<textarea id="draft" placeholder="백지에 쓰듯 먼저 써 보세요 (선택). 다 쓰면 모범답안을 열고 빠진 포인트를 체크해요.">${esc(draft)}</textarea>`;
-    if (!cur.open) {
-      h += `<div class="actions"><button class="btn pri" data-act="open">모범답안 보기</button><span class="spacer"></span>${round.i > 0 ? '<button class="btn" data-act="prev">← 이전</button>' : ""}${round.i < round.ids.length - 1 ? '<button class="btn" data-act="next">다음 →</button>' : ""}</div>`;
-      return h;
-    }
-    if (!cur.keys) cur.keys = x.keys.map(() => false);
-    const got = cur.keys.filter(Boolean).length;
-    h += `<h3 class="sec">채점 포인트 — 내 답안에 있는 것을 체크</h3><div class="keys">` + x.keys.map((k, i) => `<label class="${cur.keys[i] ? "on" : ""}"><input type="checkbox" data-key="${i}" ${cur.keys[i] ? "checked" : ""}><span>${esc(k)}</span></label>`).join("") + `</div>`;
-    const best = store.essay[x.id];
-    h += `<div class="actions"><span class="kscore">${got} / ${x.keys.length} 포인트</span>${best ? `<span class="score">최고 ${best[0]}/${best[1]}</span>` : ""}<span class="spacer"></span><button class="btn" data-act="savescore">점수 기록</button></div>`;
-    h += `<div class="ans-body"><h3 class="sec" style="margin-top:0">모범답안</h3>${wrapTables(x.ans)}`;
-    if (x.svg) h += `<div class="fig">${x.svg}</div>`;
-    if (x.draw && x.draw.length) h += `<h3 class="sec">그리는 순서</h3><ol class="draw">${x.draw.map(s => `<li>${esc(s)}</li>`).join("")}</ol>`;
-    h += `</div><div class="actions"><span class="spacer"></span>${round.i > 0 ? '<button class="btn" data-act="prev">← 이전</button>' : ""}${round.i < round.ids.length - 1 ? '<button class="btn pri" data-act="next">다음 주제 →</button>' : ""}</div>`;
-    return h;
-  }
-  // ---------- 결과 · 오답노트 ----------
-  function renderSummary() {
-    const v = Object.entries(round.res); const ok = v.filter(e => e[1]).length; const bad = v.filter(e => !e[1]).map(e => e[0]);
-    return `<div class="sum"><div class="eyebrow">이번 회차 결과</div><div class="big">${ok}<small> / ${v.length}</small></div><div class="score" style="margin-top:6px">${v.length ? Math.round(ok / v.length * 100) : 0}% · 틀린 ${bad.length}문제는 오답노트에 들어갔어요</div></div>
-    <div class="actions" style="justify-content:center">${bad.length ? `<button class="btn pri" data-act="redo" data-ids="${bad.join(",")}">틀린 것만 다시</button>` : ""}<button class="btn" data-act="restart">처음부터</button></div>`;
-  }
-  function renderWrong() {
-    const ids = Object.keys(store.wrong).filter(id => byId[id]);
-    if (!ids.length) return `<div class="empty">오답노트가 비어 있어요.<br>객관식·단답에서 틀린 문제가 여기에 모여요.</div>`;
-    const nm = ids.filter(i => byId[i].type === "mcq").length, ns = ids.length - nm;
-    let h = `<div class="actions" style="margin-top:0"><button class="btn pri" data-act="wredo">오답 ${ids.length}개 다시 풀기</button><span class="score">객관식 ${nm} · 단답 ${ns} — 다시 풀어 맞히면 자동으로 빠져요</span><span class="spacer"></span>${cur.clearAsk ? '<button class="btn bad" data-act="wclear2">정말 모두 지우기</button><button class="btn" data-act="wclear0">취소</button>' : '<button class="btn" data-act="wclear">모두 지우기</button>'}</div><div class="wlist">`;
-    ["P", "T", "L"].forEach(p => {
-      ids.filter(id => byId[id].p === p).forEach(id => {
-        const x = byId[id];
-        const a = x.type === "mcq" ? x.a.map(i => x.o[i]).join(" / ") : x.a;
-        h += `<div class="witem"><span class="badge ${x.type === "mcq" ? "p" : ""}">${x.type === "mcq" ? "객관식" : "단답"}</span><div class="tx">${esc(x.q)}<b>${esc(a)}</b></div><button class="x" data-wdel="${id}" aria-label="오답노트에서 빼기">×</button></div>`;
-      });
-    });
-    return h + "</div>";
-  }
-  function draw() { drawView(); persist(); }
-  function drawView() {
-    renderTabs(); renderFilters();
-    if (st.tab === "wrong" && !(round && round.review)) { elMain.innerHTML = `<div class="card">${renderWrong()}</div>`; return; }
-    if (!round) { startRound(pool()); return; }
-    if (!round.ids.length) { elMain.innerHTML = `<div class="card"><div class="empty">이 조건에 맞는 문제가 없어요. 필터를 바꿔 보세요.</div></div>`; return; }
-    if (round.i >= round.ids.length) { elMain.innerHTML = `<div class="card">${renderSummary()}</div>`; return; }
-    const x = byId[round.ids[round.i]];
-    elMain.innerHTML = `<div class="card">${x.type === "mcq" ? renderMCQ(x) : x.type === "short" ? renderShort(x) : renderEssay(x)}</div>`;
-    if (x.type === "short" && !cur.done && !cur.pending) { const inp = root.querySelector("#ans"); if (inp && cur.focus) inp.focus(); }
-  }
-  function go(d) { round.i = Math.max(0, round.i + d); cur = { focus: true }; draw(); elTabs.scrollIntoView({ behavior: "smooth", block: "start" }); }
+  if (S.cards.pos >= list.length) S.cards.pos = list.length - 1;
+  const d = BY[list[S.cards.pos]];
+  const opts = d.t !== 'short' ? `<ol class="opts">${d.o.map((o, i) => `<li><span class="no">${NUM[i]}</span><span>${fmt(o)}</span></li>`).join('')}</ol>` : '';
+  v.innerHTML = filterBar('카드는 답을 눌러 확인하고, 알았는지 스스로 표시하면 진행도에 남아요.') + `
+  <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+    <div class="row spread"><span class="pos">${S.cards.pos + 1} / ${list.length}</span>
+      <div class="row"><span class="kbd">Space 답 · ←/→ 이동</span>
+      <button class="btn ghost" id="shuf" aria-pressed="${S.cards.shuffle}">${S.cards.shuffle ? '섞은 순서' : '원래 순서'}</button></div></div>
+    <article class="card" data-r="${RK[d.r]}"><div class="band"></div><div class="cardbody">
+      ${metaHtml(d)}
+      <p class="q">${fmt(d.q)}</p>${opts}
+      ${revealed ? answerBlock(d) : ''}
+      <div class="row">
+        <button class="btn ${revealed ? '' : 'primary'} grow" id="rev">${revealed ? '다시 문제만 보기' : '답 확인'}</button>
+        <button class="btn note" id="note" aria-pressed="${!!S.notes[d.id]}">${S.notes[d.id] ? '★ 오답노트에 있음' : '☆ 오답노트에 넣기'}</button>
+      </div>
+      ${revealed ? `<div class="row"><button class="btn good grow" id="know">알았어요</button><button class="btn bad grow" id="dunno">몰랐어요</button></div>` : ''}
+      <div>${lastRes(d.id)}</div>
+    </div></article>
+    <div class="row"><button class="btn grow" id="prev" ${S.cards.pos === 0 ? 'disabled' : ''}>← 이전</button>
+      <button class="btn grow" id="next" ${S.cards.pos >= list.length - 1 ? 'disabled' : ''}>다음 →</button></div>
+  </div>`;
+  bindFilters(renderAll);
+  const go = dlt => { S.cards.pos = Math.max(0, Math.min(list.length - 1, S.cards.pos + dlt)); revealed = false; save(); renderCards(); };
+  document.getElementById('rev').onclick = () => { revealed = !revealed; renderCards(); };
+  document.getElementById('note').onclick = () => { toggleNote(d.id); renderAll(); };
+  document.getElementById('prev').onclick = () => go(-1);
+  document.getElementById('next').onclick = () => go(1);
+  document.getElementById('shuf').onclick = () => { S.cards.shuffle = !S.cards.shuffle; revealed = false; save(); renderCards(); };
+  const mark = ok => { record(d.id, ok); save(); renderStats(); if (S.cards.pos < list.length - 1) go(1); else { revealed = false; renderCards(); } };
+  if (revealed) { document.getElementById('know').onclick = () => mark(true); document.getElementById('dunno').onclick = () => mark(false); }
+}
 
-  function onClick(e) {
-    const t = e.target.closest("button,[data-key]"); if (!t || !root.contains(t)) return;
-    if (t.dataset.tab) {
-      if (t.dataset.tab === st.tab) { if (st.tab === "wrong" && round) { round = null; cur = {}; draw(); } return; }
-      saved[st.tab] = { round, cur };
-      st.tab = t.dataset.tab; savePrefs();
-      const s = saved[st.tab];
-      if (s) { round = s.round; cur = s.cur || {}; } else { round = null; cur = {}; }
-      if (st.tab === "wrong" || round) draw(); else startRound(pool());
-      return;
-    }
-    if (t.dataset.part) { st.part = t.dataset.part; savePrefs(); dropRounds(); startRound(pool()); return; }
-    if (t.dataset.tog) { st[t.dataset.tog] = !st[t.dataset.tog]; savePrefs(); dropRounds(); startRound(pool()); return; }
-    if (t.dataset.wdel) { delete store.wrong[t.dataset.wdel]; save(); draw(); return; }
-    if (t.dataset.opt !== undefined) {
-      const x = byId[round.ids[round.i]]; const i = +t.dataset.opt; const multi = x.a.length > 1 || /모두/.test(x.q);
-      if (cur.done) return;
-      if (multi) { cur.sel = cur.sel.includes(i) ? cur.sel.filter(k => k !== i) : cur.sel.concat(i); } else cur.sel = [i];
-      draw(); return;
-    }
-    const act = t.dataset.act; if (!act) return;
-    const x = round && round.i < round.ids.length ? byId[round.ids[round.i]] : null;
-    if (act === "grade" && x) { const ok = cur.sel.length === x.a.length && x.a.every(i => cur.sel.includes(i)); cur.done = true; markResult(x, ok); draw(); }
-    else if (act === "check" && x) { const v = root.querySelector("#ans").value; cur.input = v; if (checkShort(x, v)) { cur.done = true; markResult(x, true); } else cur.pending = true; draw(); }
-    else if (act === "reveal" && x) { cur.input = root.querySelector("#ans").value; cur.pending = true; draw(); }
-    else if (act === "selfok" && x) { cur.pending = false; cur.done = true; markResult(x, true); draw(); }
-    else if (act === "selfno" && x) { cur.pending = false; cur.done = true; markResult(x, false); draw(); }
-    else if (act === "next") go(1);
-    else if (act === "prev") go(-1);
-    else if (act === "redo") { startRound(t.dataset.ids.split(","), true); }
-    else if (act === "restart") { if (round.review && st.tab === "wrong") { round = null; draw(); } else startRound(pool()); }
-    else if (act === "wredo") { const ids = Object.keys(store.wrong).filter(id => byId[id]); round = { ids: st.shuf ? shuffle(ids) : ids, i: 0, res: {}, review: true }; cur = {}; draw(); }
-    else if (act === "wclear") { cur.clearAsk = true; draw(); }
-    else if (act === "wclear0") { cur.clearAsk = false; draw(); }
-    else if (act === "wclear2") { store.wrong = {}; save(); cur = {}; draw(); }
-    else if (act === "open") { cur.open = true; draw(); }
-    else if (act === "savescore" && x) { const got = cur.keys.filter(Boolean).length; const b = store.essay[x.id]; if (!b || got >= b[0]) store.essay[x.id] = [got, x.keys.length]; save(); t.textContent = "기록했어요"; setTimeout(draw, 700); }
+/* ---------- quiz ---------- */
+function startQuiz(ids, shuffleIt) {
+  if (!ids.length) return;
+  const list = shuffleIt ? shuffle(ids) : ids.slice();
+  S.quiz = { ids: list, i: 0, ans: {}, perm: {}, sel: {}, done: false, view: true };
+  save(); renderQuiz();
+}
+function quizSetup() {
+  const pool = filtered();
+  const wrong = DATA.filter(d => S.res[d.id] && S.res[d.id].l === 0).map(d => d.id);
+  const notes = Object.keys(S.notes).filter(id => BY[id]);
+  const fresh = DATA.filter(d => !S.res[d.id]).map(d => d.id);
+  const q = S.quiz;
+  const resume = q && !q.done && q.i < q.ids.length;
+  const nOpts = [['10', '10문제'], ['20', '20문제'], ['50', '50문제'], ['all', '전부']];
+  return `${resume ? `<div class="panel"><h2>풀던 퀴즈가 있어요</h2><p>${q.i} / ${q.ids.length}까지 풀었어요.</p>
+      <div class="row"><button class="btn primary grow" id="resume">이어서 풀기</button><button class="btn" id="drop">버리기</button></div></div>` : ''}
+    <div class="panel"><h2>새 퀴즈</h2>
+      ${filterBar('', true)}
+      <div class="seg" role="group" aria-label="문제 수">${nOpts.map(([v, t]) => `<button data-n="${v}" aria-pressed="${S.qset.n === v}">${t}</button>`).join('')}</div>
+      <label class="toggle"><input type="checkbox" id="qshuf" ${S.qset.shuffle ? 'checked' : ''}> 문제 순서 섞기</label>
+      <label class="toggle"><input type="checkbox" id="auto" ${S.auto ? 'checked' : ''}> 틀린 문제는 오답노트에 자동으로 넣기</label>
+      <button class="btn primary" id="go" ${pool.length ? '' : 'disabled'}>조건에 맞는 ${pool.length}문제 중 ${S.qset.n === 'all' ? pool.length : Math.min(+S.qset.n, pool.length)}문제 풀기</button>
+    </div>
+    <div class="panel"><h2>바로 시작</h2>
+      <div class="row">
+        <button class="btn grow" id="qwrong" ${wrong.length ? '' : 'disabled'}>최근 틀린 문제 ${wrong.length}</button>
+        <button class="btn grow" id="qnotes" ${notes.length ? '' : 'disabled'}>오답노트 ${notes.length}</button>
+        <button class="btn grow" id="qfresh" ${fresh.length ? '' : 'disabled'}>안 푼 문제 ${fresh.length}</button>
+      </div></div>`;
+}
+function bindSetup() {
+  bindFilters(renderQuiz);
+  document.querySelectorAll('.seg [data-n]').forEach(b => b.onclick = () => { S.qset.n = b.dataset.n; save(); renderQuiz(); });
+  document.getElementById('qshuf').onchange = e => { S.qset.shuffle = e.target.checked; save(); };
+  document.getElementById('auto').onchange = e => { S.auto = e.target.checked; save(); };
+  const pick = ids => { const n = S.qset.n === 'all' ? ids.length : +S.qset.n; return (S.qset.shuffle ? shuffle(ids) : ids).slice(0, n); };
+  document.getElementById('go').onclick = () => startQuiz(pick(filtered()), false);
+  document.getElementById('qwrong').onclick = () => startQuiz(DATA.filter(d => S.res[d.id] && S.res[d.id].l === 0).map(d => d.id), true);
+  document.getElementById('qnotes').onclick = () => startQuiz(Object.keys(S.notes).filter(id => BY[id]), true);
+  document.getElementById('qfresh').onclick = () => startQuiz(pick(DATA.filter(d => !S.res[d.id]).map(d => d.id)), false);
+  const r = document.getElementById('resume'); if (r) r.onclick = () => { S.quiz.view = true; renderQuiz(); };
+  const dr = document.getElementById('drop'); if (dr) dr.onclick = () => { S.quiz = null; save(); renderQuiz(); };
+}
+function quizQuestion() {
+  const q = S.quiz, id = q.ids[q.i], d = BY[id], st = q.ans[id];
+  const graded = st && typeof st.ok === 'boolean';
+  let body = '';
+  if (d.t === 'mcq' || d.t === 'multi') {
+    if (!q.perm[id] || q.perm[id].length !== d.o.length) { q.perm[id] = shuffle(d.o.map((_, i) => i)); save(); }
+    const multi = d.t === 'multi';
+    const ans = multi ? d.a : [d.a];
+    const sel = (q.sel && q.sel[id]) || [];
+    body = `${multi ? '<div class="hint">정답을 모두 고른 뒤 채점하기를 누르세요.</div>' : ''}<div class="list" style="gap:7px">${q.perm[id].map((oi, k) => {
+      let cls = '';
+      if (graded) {
+        const picked = multi ? st.pick.includes(oi) : st.pick === oi;
+        if (ans.includes(oi)) cls = picked ? 'right' : 'miss'; else if (picked) cls = 'wrong';
+      }
+      const on = multi && !graded && sel.includes(oi);
+      return `<button class="choice ${cls}${multi ? ' multi' : ''}" data-pick="${oi}" ${multi ? `aria-pressed="${on}"` : ''} ${graded ? 'disabled' : ''}>${multi ? `<span class="box">${on || (graded && st.pick.includes(oi)) ? '☑' : '☐'}</span>` : ''}<span class="no">${NUM[k]}</span><span>${fmt(d.o[oi])}</span></button>`;
+    }).join('')}</div>${multi && !graded ? `<button class="btn primary" id="gradeMulti" ${sel.length ? '' : 'disabled'}>채점하기</button>` : ''}`;
+  } else {
+    const shown = st && st.shown;
+    const match = shown && st.typed && norm(st.typed) && norm(st.typed) === norm(d.a);
+    body = `<input class="typed" id="typed" placeholder="머릿속으로 떠올리거나 여기에 써 보세요 (선택)" value="${esc(st && st.typed || '')}" ${shown ? 'disabled' : ''} autocomplete="off">
+      ${shown ? '' : '<button class="btn primary" id="show">답 확인</button>'}
+      ${shown && match ? '<div class="match">입력한 답이 정답과 같아요</div>' : ''}
+      ${shown && !graded ? `<div class="row"><button class="btn good grow" id="selfok">맞았어요</button><button class="btn bad grow" id="selfno">틀렸어요</button></div>` : ''}`;
   }
-  function onChange(e) {
-    if (!root.contains(e.target)) return;
-    if (e.target.id === "esel") { round.i = +e.target.value; cur = {}; draw(); }
-    if (e.target.dataset && e.target.dataset.key !== undefined) { cur.keys[+e.target.dataset.key] = e.target.checked; draw(); }
+  const showAns = graded || (d.t === 'short' && st && st.shown);
+  const verdict = graded ? `<div class="verdict ${st.ok ? 'ok' : 'no'}">${st.ok ? '정답이에요' : '틀렸어요'}</div>` : '';
+  const last = q.i >= q.ids.length - 1;
+  return `<div style="display:flex;flex-direction:column;gap:10px">
+    <div class="row spread"><span class="pos">${q.i + 1} / ${q.ids.length}</span>
+      <div class="row"><span class="kbd">${d.t !== 'short' && !graded ? '숫자 키로 선택' : ''}${graded ? 'Enter 다음' : ''}</span>
+      <button class="btn ghost" id="quit">그만 풀기</button></div></div>
+    <div class="bar"><i style="width:${(q.i / q.ids.length * 100).toFixed(1)}%"></i></div>
+    <article class="card" data-r="${RK[d.r]}"><div class="band"></div><div class="cardbody">
+      ${metaHtml(d)}
+      <p class="q">${fmt(d.q)}</p>
+      ${body}
+      <div class="result">${verdict}</div>
+      ${showAns ? answerBlock(d, q.perm[id]) : ''}
+      ${showAns ? `<div class="row"><button class="btn note" id="note" aria-pressed="${!!S.notes[id]}">${S.notes[id] ? '★ 오답노트에 있음' : '☆ 오답노트에 넣기'}</button>
+        ${graded ? `<button class="btn primary grow" id="nextq">${last ? '결과 보기' : '다음 문제 →'}</button>` : ''}</div>` : ''}
+    </div></article></div>`;
+}
+function bindQuestion() {
+  const q = S.quiz, id = q.ids[q.i], d = BY[id];
+  const grade = (pick, ok) => { q.ans[id] = Object.assign(q.ans[id] || {}, { pick, ok }); record(id, ok); save(); renderStats(); renderQuiz(); };
+  document.querySelectorAll('.choice[data-pick]').forEach(b => b.onclick = () => {
+    const pick = +b.dataset.pick;
+    if (d.t === 'mcq') { grade(pick, pick === d.a); return; }
+    q.sel = q.sel || {};
+    const cur = q.sel[id] || [];
+    q.sel[id] = cur.includes(pick) ? cur.filter(x => x !== pick) : cur.concat(pick);
+    save(); renderQuiz();
+  });
+  const gm = document.getElementById('gradeMulti');
+  if (gm) gm.onclick = () => {
+    const sel = (q.sel && q.sel[id]) || [];
+    const ok = sel.length === d.a.length && d.a.every(x => sel.includes(x));
+    grade(sel.slice(), ok);
+  };
+  const show = document.getElementById('show');
+  if (show) show.onclick = () => { q.ans[id] = { shown: true, typed: document.getElementById('typed').value.trim() }; save(); renderQuiz(); };
+  const typed = document.getElementById('typed');
+  if (typed && !typed.disabled) typed.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); show.click(); } };
+  const ok = document.getElementById('selfok'); if (ok) ok.onclick = () => grade(null, true);
+  const no = document.getElementById('selfno'); if (no) no.onclick = () => grade(null, false);
+  const nt = document.getElementById('note'); if (nt) nt.onclick = () => { toggleNote(id); renderStats(); renderQuiz(); };
+  const nx = document.getElementById('nextq'); if (nx) nx.onclick = () => { q.i++; if (q.i >= q.ids.length) { q.done = true; q.i = q.ids.length; } save(); renderQuiz(); };
+  document.getElementById('quit').onclick = () => { q.view = false; save(); renderQuiz(); };
+}
+function quizSummary() {
+  const q = S.quiz;
+  const graded = q.ids.filter(id => q.ans[id] && typeof q.ans[id].ok === 'boolean');
+  const ok = graded.filter(id => q.ans[id].ok).length;
+  const wrong = graded.filter(id => !q.ans[id].ok);
+  return `<div class="panel"><h2>결과</h2>
+      <div class="row" style="align-items:baseline;gap:12px"><span class="big">${ok}/${graded.length}</span>
+      <span style="color:var(--muted)">정답률 ${graded.length ? Math.round(ok / graded.length * 100) : 0}%</span></div>
+      <div class="row">
+        <button class="btn primary grow" id="again" ${wrong.length ? '' : 'disabled'}>틀린 ${wrong.length}문제만 다시 풀기</button>
+        <button class="btn grow" id="allnote" ${wrong.length ? '' : 'disabled'}>틀린 문제 모두 오답노트에</button>
+        <button class="btn grow" id="newq">새 퀴즈</button>
+      </div></div>
+    ${wrong.length ? `<div class="list">${wrong.map(id => noteItem(BY[id], true)).join('')}</div>` : '<div class="empty">모두 맞혔어요.</div>'}`;
+}
+function renderQuiz() {
+  const v = root.querySelector('#view');
+  const q = S.quiz;
+  if (q && q.done) {
+    v.innerHTML = quizSummary();
+    const wrong = q.ids.filter(id => q.ans[id] && q.ans[id].ok === false);
+    document.getElementById('again').onclick = () => startQuiz(wrong, true);
+    document.getElementById('allnote').onclick = () => { wrong.forEach(id => { if (!S.notes[id]) S.notes[id] = Date.now(); }); save(); renderAll(); };
+    document.getElementById('newq').onclick = () => { S.quiz = null; save(); renderQuiz(); };
+    bindNoteItems(renderQuiz);
+    return;
   }
-  function onInput(e) {
-    if (e.target.id === "draft" && root.contains(e.target)) { const x = byId[round.ids[round.i]]; store.drafts = store.drafts || {}; store.drafts[x.id] = e.target.value; save(); }
+  if (q && q.view && q.i < q.ids.length) {
+    v.innerHTML = quizQuestion(); bindQuestion(); return;
   }
-  function onKey(e) {
-    if (!round || round.i >= round.ids.length || st.tab === "essay") return;
-    if (e.target !== document.body && e.target !== document.documentElement && !root.contains(e.target)) return;
-    const x = byId[round.ids[round.i]]; if (!x) return;
-    const inInput = e.target.id === "ans";
-    if (e.key === "Enter") {
-      if (e.target.closest && e.target.closest("button") && !inInput) return;
-      e.preventDefault();
-      if (x.type === "short" && !cur.done && !cur.pending) { root.querySelector('[data-act="check"]').click(); return; }
-      if (x.type === "mcq" && !cur.done && cur.sel && cur.sel.length) { root.querySelector('[data-act="grade"]').click(); return; }
-      if (cur.done) go(1);
-      return;
-    }
-    if (!inInput && x.type === "mcq" && !cur.done && /^[1-5]$/.test(e.key)) { const b = root.querySelector(`[data-opt="${+e.key - 1}"]`); if (b) b.click(); }
+  v.innerHTML = quizSetup(); bindSetup();
+}
+
+/* ---------- notes ---------- */
+let noteOpen = {}, noteAll = false, noteReg = 'all';
+function noteItem(d, open) {
+  const show = open || noteAll || noteOpen[d.id];
+  const opts = d.t !== 'short' ? `<ol class="opts">${d.o.map((o, i) => `<li><span class="no">${NUM[i]}</span><span>${fmt(o)}</span></li>`).join('')}</ol>` : '';
+  return `<article class="card item" data-r="${RK[d.r]}"><div class="band"></div><div class="cardbody">
+    ${metaHtml(d)}
+    <p class="q">${fmt(d.q)}</p>${opts}
+    ${show ? answerBlock(d) : ''}
+    <div class="row spread">${lastRes(d.id)}
+      <div class="row">${open ? '' : `<button class="btn ghost" data-open="${d.id}">${show ? '답 가리기' : '답 보기'}</button>`}
+      <button class="btn note" data-note="${d.id}" aria-pressed="${!!S.notes[d.id]}">${S.notes[d.id] ? '★ 오답노트에서 빼기' : '☆ 오답노트에 넣기'}</button></div></div>
+  </div></article>`;
+}
+function bindNoteItems(rerender) {
+  document.querySelectorAll('[data-open]').forEach(b => b.onclick = () => { const id = b.dataset.open; noteOpen[id] = !noteOpen[id]; rerender(); });
+  document.querySelectorAll('[data-note]').forEach(b => b.onclick = () => { toggleNote(b.dataset.note); renderStats(); rerender(); });
+}
+function renderNotes() {
+  const v = root.querySelector('#view');
+  const ids = Object.keys(S.notes).filter(id => BY[id] && (noteReg === 'all' || BY[id].r === noteReg)).sort((a, b) => S.notes[b] - S.notes[a]);
+  const all = Object.keys(S.notes).filter(id => BY[id]);
+  v.innerHTML = `<div class="panel"><h2>오답노트 ${all.length}문제</h2>
+      <p>맞힌 문제도 애매하면 넣어 두세요. 카드·퀴즈 어디서든 ☆를 누르면 여기에 모입니다.</p>
+      <div class="seg" role="group" aria-label="부위">${[['all', '전체'], ['골반', '골반'], ['샅', '샅'], ['다리', '다리']].map(([k, t]) =>
+        `<button data-reg="${k}" aria-pressed="${noteReg === k}">${t}</button>`).join('')}</div>
+      <div class="row">
+        <button class="btn primary grow" id="nquiz" ${ids.length ? '' : 'disabled'}>이 ${ids.length}문제로 퀴즈</button>
+        <button class="btn grow" id="ncards" ${ids.length ? '' : 'disabled'}>카드로 보기</button>
+        <button class="btn grow" id="nall">${noteAll ? '답 모두 가리기' : '답 모두 보기'}</button>
+      </div></div>
+    ${ids.length ? `<div class="list" style="margin-top:12px">${ids.map(id => noteItem(BY[id], false)).join('')}</div>`
+      : '<div class="empty" style="margin-top:12px">아직 비어 있어요. 학습카드나 퀴즈에서 ☆ 오답노트에 넣기를 누르면 여기에 모입니다.</div>'}`;
+  document.querySelectorAll('[data-reg]').forEach(b => b.onclick = () => { noteReg = b.dataset.reg; renderNotes(); });
+  document.getElementById('nquiz').onclick = () => { startQuiz(ids, true); setView('quiz'); };
+  document.getElementById('ncards').onclick = () => { S.f = Object.assign({}, DEF.f, { st: 'note', r: noteReg }); revealed = false; save(); setView('cards'); };
+  document.getElementById('nall').onclick = () => { noteAll = !noteAll; renderNotes(); };
+  bindNoteItems(renderNotes);
+}
+
+/* ---------- progress ---------- */
+let confirmKey = '';
+function renderProgress() {
+  const v = root.querySelector('#view');
+  const done = DATA.filter(d => S.res[d.id]);
+  const ok = done.filter(d => S.res[d.id].l === 1).length;
+  const nn = Object.keys(S.notes).filter(id => BY[id]).length;
+  const regs = ['골반', '샅', '다리'].map(r => {
+    const all = DATA.filter(d => d.r === r);
+    const g = all.filter(d => S.res[d.id] && S.res[d.id].l === 1).length;
+    const b = all.filter(d => S.res[d.id] && S.res[d.id].l === 0).length;
+    return `<div class="regrow"><div class="reghead"><span>${r}</span><span>맞음 ${g} · 틀림 ${b} · 안 푼 ${all.length - g - b} / ${all.length}</span></div>
+      <div class="stack"><i class="g" style="width:${g / all.length * 100}%"></i><i class="b" style="width:${b / all.length * 100}%"></i></div></div>`;
+  }).join('');
+  const subs = [];
+  DATA.forEach(d => { const key = d.r + '|' + d.s; let s = subs.find(x => x.key === key); if (!s) { s = { key, r: d.r, s: d.s, n: 0, done: 0, ok: 0 }; subs.push(s); } s.n++; if (S.res[d.id]) { s.done++; if (S.res[d.id].l === 1) s.ok++; } });
+  v.innerHTML = `<div class="tiles">
+      <div class="tile"><div class="k">푼 문제</div><div class="v">${done.length}<small>/${DATA.length}</small></div></div>
+      <div class="tile"><div class="k">최근 정답률</div><div class="v">${done.length ? Math.round(ok / done.length * 100) : 0}<small>%</small></div></div>
+      <div class="tile"><div class="k">오답노트</div><div class="v">${nn}</div></div></div>
+    <div class="panel" style="margin-top:12px"><h2>부위별</h2>${regs}
+      <div class="legend"><span><i style="background:var(--good)"></i>최근 맞음</span><span><i style="background:var(--bad)"></i>최근 틀림</span><span><i style="background:var(--line)"></i>안 푼 문제</span></div></div>
+    <div class="panel" style="margin-top:12px"><h2>단원별</h2><div class="tablewrap"><table class="subs">
+      <thead><tr><th>부위</th><th>단원</th><th class="n">문제</th><th class="n">푼 문제</th><th class="n">정답률</th></tr></thead>
+      <tbody>${subs.map(s => `<tr><td>${s.r}</td><td>${esc(s.s)}</td><td class="n">${s.n}</td><td class="n">${s.done}</td><td class="n">${s.done ? Math.round(s.ok / s.done * 100) + '%' : '–'}</td></tr>`).join('')}</tbody></table></div></div>
+    <div class="panel" style="margin-top:12px"><h2>초기화</h2><p>이 브라우저에만 저장돼 있어요. 다른 기기와는 이어지지 않습니다.</p>
+      <div class="row">
+        <button class="btn ${confirmKey === 'res' ? 'bad' : ''}" id="rres">${confirmKey === 'res' ? '정말 진행도를 지울까요? 한 번 더 누르기' : '진행도 초기화'}</button>
+        <button class="btn ${confirmKey === 'notes' ? 'bad' : ''}" id="rnotes">${confirmKey === 'notes' ? '정말 비울까요? 한 번 더 누르기' : '오답노트 비우기'}</button>
+      </div></div>`;
+  document.getElementById('rres').onclick = () => { if (confirmKey === 'res') { S.res = {}; S.quiz = null; confirmKey = ''; save(); renderAll(); } else { confirmKey = 'res'; renderProgress(); } };
+  document.getElementById('rnotes').onclick = () => { if (confirmKey === 'notes') { S.notes = {}; confirmKey = ''; save(); renderAll(); } else { confirmKey = 'notes'; renderProgress(); } };
+}
+
+/* ---------- router ---------- */
+const VIEWS = { cards: renderCards, quiz: renderQuiz, notes: renderNotes, progress: renderProgress };
+function route() { return VIEWS[S.view] ? S.view : 'cards'; }
+function renderAll() {
+  const r = route();
+  root.querySelectorAll('.tabs button').forEach(a => a.setAttribute('aria-current', a.dataset.v === r ? 'page' : 'false'));
+  if (r !== 'progress') confirmKey = '';
+  renderStats(); showWarn(); VIEWS[r]();
+}
+function setView(v) {
+  if (!VIEWS[v]) return;
+  S.view = v; save(); revealed = false; renderAll();
+  const t = root.querySelector('#tabs'); if (t) t.scrollIntoView({ block: 'start' });
+}
+function onClick(e) {
+  const b = e.target.closest('.tabs button[data-v]');
+  if (b && root.contains(b)) { if (b.dataset.v !== route()) setView(b.dataset.v); }
+}
+function onKey(e) {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.target !== document.body && e.target !== document.documentElement && !root.contains(e.target)) return;
+  if (e.target.matches && e.target.matches('input, select, textarea')) return;
+  const r = route();
+  if (r === 'cards') {
+    if (e.key === ' ' || e.code === 'Space') { e.preventDefault(); const b = document.getElementById('rev'); if (b) b.click(); }
+    if (e.key === 'ArrowRight') { const b = document.getElementById('next'); if (b && !b.disabled) b.click(); }
+    if (e.key === 'ArrowLeft') { const b = document.getElementById('prev'); if (b && !b.disabled) b.click(); }
+  } else if (r === 'quiz' && S.quiz && S.quiz.view) {
+    if (/^[1-4]$/.test(e.key)) { const bs = document.querySelectorAll('.choice[data-pick]:not(:disabled)'); const b = bs[+e.key - 1]; if (b) b.click(); }
+    if (e.key === 'Enter') { const g = document.getElementById('gradeMulti'); const b = g && !g.disabled ? g : document.getElementById('nextq'); if (b) { e.preventDefault(); b.click(); } }
   }
-  Object.keys(store.rounds).forEach(k => { if (k !== st.tab) { const r = restoreRound(k); if (r) saved[k] = { round: r, cur: {} }; } });
-  round = restoreRound(st.tab);
-  if (round || st.tab === "wrong") draw(); else startRound(pool());
-  return { onClick, onChange, onInput, onKey };
+}
+renderAll();
+return { onClick, onChange() {}, onInput() {}, onKey };
 }
 
 /* ===================================================================
