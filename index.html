@@ -258,7 +258,7 @@ h1{margin:0;font-size:34px;line-height:1.25;letter-spacing:-.03em;color:var(--na
 
 
 /* ===== 기출 덱 (학습카드·퀴즈·오답노트·진행도) — 사이트 디자인 ===== */
-.dk{--paper:#fff;--muted:var(--gray);--good:#2f7d45;--bad:#b8322a;--flag:#8a5a00;--pelvis:#1d4f9f;--peri:#5d3b9a;--leg:#9a5b00;font-size:15px;overflow-wrap:anywhere}
+.dk{--paper:#fff;--muted:var(--gray);--good:#2f7d45;--bad:#b8322a;--flag:#8a5a00;--r0:#1d4f9f;--r1:#5d3b9a;--r2:#9a5b00;--r3:#0f766e;--r4:#475569;font-size:15px;overflow-wrap:anywhere}
 
 .dk button,.dk select,.dk input{font:inherit;color:inherit}
 .dk .stats{display:flex;gap:6px;flex-wrap:wrap;margin:-6px 0 14px}
@@ -281,9 +281,11 @@ h1{margin:0;font-size:34px;line-height:1.25;letter-spacing:-.03em;color:var(--na
 .dk .fbox[open]>summary{border-bottom:1px solid var(--line)}
 .dk .fbox .fin{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px}
 .dk .card{background:#fff;border:1px solid var(--line);border-top:0}
-.dk .card[data-r="pelvis"]{--rc:var(--pelvis)}
-.dk .card[data-r="peri"]{--rc:var(--peri)}
-.dk .card[data-r="leg"]{--rc:var(--leg)}
+.dk .card[data-r="r0"]{--rc:var(--r0)}
+.dk .card[data-r="r1"]{--rc:var(--r1)}
+.dk .card[data-r="r2"]{--rc:var(--r2)}
+.dk .card[data-r="r3"]{--rc:var(--r3)}
+.dk .card[data-r="r4"]{--rc:var(--r4)}
 .dk .card .band{height:4px;background:var(--rc)}
 .dk .cardbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px}
 .dk .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px}
@@ -440,6 +442,13 @@ ANATOMY_EXAMS[3].contents.push({
   desc: "골반 · 샅 · 다리 — 합본 기출 + 예상문제. 학습카드 · 퀴즈 · 오답노트 · 진행도",
   meta: "문제 361 (단답 244 · 객관식 117)",
   src: "data/anatomy-4-deck.json", storeKey: "yucd25-anatomy-4-deck"
+});
+
+ANATOMY_EXAMS[4].contents.push({
+  key: "quiz", type: "deck", title: "학습카드 & 퀴즈",
+  desc: "머리 · 목 — 합본 기출(2007–2024) + 예상문제. 학습카드 · 퀴즈 · 오답노트 · 진행도",
+  meta: "문제 445 (단답 185 · 객관식 260)",
+  src: "data/anatomy-5-deck.json", storeKey: "yucd25-anatomy-5-deck"
 });
 
 const COURSES = {
@@ -690,10 +699,11 @@ let activeQuiz = null;
    { id, r:부위, s:단원, t:'short'|'mcq'|'multi', q, a, o?, e?, ex?, y, k:중요도, src }
    =================================================================== */
 function mountDeck(root, DATA, KEY) {
+  const REGS = DATA.map(d => d.r).filter((r, i, a) => a.indexOf(r) === i); // 부위(분류) 목록: 데이터에 나온 순서
+  const RK = {}; REGS.forEach((r, i) => RK[r] = "r" + (i % 5));
   root.innerHTML = '<div class="stats" id="stats"></div><div id="warn"></div>' +
     '<nav class="tabs" id="tabs" aria-label="화면"><button data-v="cards">학습카드</button><button data-v="quiz">퀴즈</button><button data-v="notes">오답노트</button><button data-v="progress">진행도</button></nav><div id="view"></div>';
 const BY = Object.fromEntries(DATA.map(d => [d.id, d]));
-const RK = { '골반': 'pelvis', '샅': 'peri', '다리': 'leg' };
 const TL = { short: '단답형', mcq: '객관식 · 답 1개', multi: '객관식 · 답 여러 개' };
 const DEF = {
   res: {}, notes: {}, quiz: null, auto: true, view: 'cards',
@@ -782,7 +792,7 @@ function filterBar(note, open) {
   const sel = (id, label, opts) => `<label>${label}<select id="f-${id}">${opts.map(([v, t]) =>
     `<option value="${v}"${S.f[id] === v ? ' selected' : ''}>${t}</option>`).join('')}</select></label>`;
   const inner = `<div class="filters">
-    ${sel('r', '부위', [['all', '전체'], ['골반', '골반'], ['샅', '샅'], ['다리', '다리']])}
+    ${sel('r', '부위', [['all', '전체']].concat(REGS.map(r => [r, r])))}
     ${sel('t', '유형', [['all', '전체'], ['short', '단답형'], ['mcq', '객관식 1개'], ['multi', '객관식 여러 개']])}
     ${sel('src', '출처', [['all', '전체'], ['기출', '기출'], ['예상', '예상']])}
     ${sel('k', '중요도', [['0', '전체'], ['2', '★★ 이상'], ['3', '★★★만']])}
@@ -1035,7 +1045,7 @@ function renderNotes() {
   const all = Object.keys(S.notes).filter(id => BY[id]);
   v.innerHTML = `<div class="panel"><h2>오답노트 ${all.length}문제</h2>
       <p>맞힌 문제도 애매하면 넣어 두세요. 카드·퀴즈 어디서든 ☆를 누르면 여기에 모입니다.</p>
-      <div class="seg" role="group" aria-label="부위">${[['all', '전체'], ['골반', '골반'], ['샅', '샅'], ['다리', '다리']].map(([k, t]) =>
+      <div class="seg" role="group" aria-label="부위">${[['all', '전체']].concat(REGS.map(r => [r, r])).map(([k, t]) =>
         `<button data-reg="${k}" aria-pressed="${noteReg === k}">${t}</button>`).join('')}</div>
       <div class="row">
         <button class="btn primary grow" id="nquiz" ${ids.length ? '' : 'disabled'}>이 ${ids.length}문제로 퀴즈</button>
@@ -1058,7 +1068,7 @@ function renderProgress() {
   const done = DATA.filter(d => S.res[d.id]);
   const ok = done.filter(d => S.res[d.id].l === 1).length;
   const nn = Object.keys(S.notes).filter(id => BY[id]).length;
-  const regs = ['골반', '샅', '다리'].map(r => {
+  const regs = REGS.map(r => {
     const all = DATA.filter(d => d.r === r);
     const g = all.filter(d => S.res[d.id] && S.res[d.id].l === 1).length;
     const b = all.filter(d => S.res[d.id] && S.res[d.id].l === 0).length;
